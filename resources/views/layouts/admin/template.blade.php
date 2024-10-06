@@ -7,8 +7,6 @@
     <title>@yield('title', 'Dashboard')</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
 
-    <link rel="canonical" href="https://www.wrappixel.com/templates/Flexy-admin-lite/" />
-
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
 
     <link href="{{ asset('assets/libs/chartist/dist/chartist.min.css') }}" rel="stylesheet">
@@ -24,7 +22,7 @@
     </div>
 
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        
+
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <div class="navbar-header" data-logobg="skin6">
@@ -76,13 +74,13 @@
                 </div>
             </nav>
         </header>
-        
-        @include('layouts.sidebar')
-        
+
+        @include('layouts.admin.sidebar')
+
         <div class="page-wrapper">
             @yield('content')
-            
-            @include('layouts.footer')
+
+            @include('layouts.admin.footer')
         </div>
     </div>
 

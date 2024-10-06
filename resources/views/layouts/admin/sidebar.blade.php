@@ -14,11 +14,11 @@
                         <span class="hide-menu">Jurusan</span>
                     </a>
                 </li>
-                
+
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="table-basic.html" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('prodi') }}" aria-expanded="false">
                         <i class="mdi mdi-border-all"></i>
-                        <span class="hide-menu">Table</span>
+                        <span class="hide-menu">Prodi</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

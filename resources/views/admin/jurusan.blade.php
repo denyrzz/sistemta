@@ -1,52 +1,72 @@
-@extends('layouts.template')
+@extends('layouts.admin.template')
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
+@if (session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+</div>
+@endif
 
-    @if (session('success')) 
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
+<div class="page-breadcrumb">
+    <div class="row align-items-center">
+        <div class="col-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 d-flex align-items-center">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/dashboard') }}" class="link">
+                            <i class="mdi mdi-home-outline fs-4"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Daftar Jurusan</li>
+                </ol>
+            </nav>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h5 class="m-0 font-weight-bold text-primary">Daftar Jurusan</h5>
-            <a href="{{ route('jurusan.create') }}" class="btn btn-primary">Tambah</a>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="example" width="100%" cellspacing="0">
-                    <thead>
-                        <tr class="table-dark">
-                            <th>NO</th>
-                            <th>Kode Jurusan</th>
-                            <th>Jurusan</th>
-                            <th>Aksi</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data_jurusan as $index => $data)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $data->kode_jurusan }}</td>
-                                <td>{{ $data->jurusan }}</td>
-                                <td>
-                                    <a href="{{ route('jurusan.edit', $data->id_jurusan) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('jurusan.destroy', $data->id_jurusan) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title">Tabel Jurusan</h4>
+                        <a href="{{ route('jurusan.create') }}" class="btn btn-primary text-white">Tambah Jurusan</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="example" width="100%" cellspacing="0">
+                            <thead class="table">
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Kode Jurusan</th>
+                                    <th>Jurusan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_jurusan as $index => $data)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $data->kode_jurusan }}</td>
+                                        <td>{{ $data->jurusan }}</td>
+                                        <td>
+                                            <a href="{{ route('jurusan.edit', $data->id_jurusan) }}" class="btn btn-warning btn-sm">Edit</a>
+                                            <form action="{{ route('jurusan.destroy', $data->id_jurusan) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 @endsection
 
