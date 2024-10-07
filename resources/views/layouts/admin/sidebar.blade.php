@@ -22,15 +22,15 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="icon-material.html" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dosen') }}" aria-expanded="false">
                         <i class="mdi mdi-face"></i>
-                        <span class="hide-menu">Icon</span>
+                        <span class="hide-menu">Dosen</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="starter-kit.html" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('ruangan') }}" aria-expanded="false">
                         <i class="mdi mdi-file"></i>
-                        <span class="hide-menu">Blank</span>
+                        <span class="hide-menu">Ruangan</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

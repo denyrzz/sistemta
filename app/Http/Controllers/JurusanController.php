@@ -21,7 +21,7 @@ class JurusanController extends Controller
 
     public function create()
     {
-        return view('admin.form.create_jurusan'); // Membuat tampilan untuk formulir
+        return view('admin.form.create_jurusan');
     }
 
     public function store(Request $request)

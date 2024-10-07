@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RuanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +50,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/prodi/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dosen', [DosenController::class, 'index'])->name('dosen');
+    Route::post('/dosen', [DosenController::class, 'store']);
+    Route::get('/dosen/edit/{id}', [DosenController::class, 'edit'])->name('dosen.edit');
+    Route::post('/dosen/update/{id}', [DosenController::class, 'update'])->name('dosen.update');
+    Route::get('/dosen/create', [DosenController::class, 'create'])->name('dosen.create');
+    Route::delete('/dosen/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/ruangan', [RuanganController::class, 'index'])->name('ruangan');
+    Route::post('/ruangan', [RuanganController::class, 'store']);
+    Route::get('/ruangan/edit/{id}', [RuanganController::class, 'edit'])->name('ruangan.edit');
+    Route::post('/ruangan/update/{id}', [RuanganController::class, 'update'])->name('ruangan.update');
+    Route::get('/ruangan/create', [RuanganController::class, 'create'])->name('ruangan.create');
+    Route::delete('/ruangan/{id}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
+});
 
 require __DIR__.'/auth.php';
