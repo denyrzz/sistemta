@@ -14,7 +14,7 @@ class Ruangan extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'no_ruangan',
-        'jam'
+        'nama_ruangan',
+        'no_ruangan'
     ];
 }

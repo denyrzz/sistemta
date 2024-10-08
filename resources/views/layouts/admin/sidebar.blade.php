@@ -34,9 +34,21 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('mahasiswa') }}" aria-expanded="false">
                         <i class="mdi mdi-alert-outline"></i>
-                        <span class="hide-menu">404</span>
+                        <span class="hide-menu">Mahasiswa</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('jabatan_pimpinan') }}" aria-expanded="false">
+                        <i class="mdi mdi-alert-outline"></i>
+                        <span class="hide-menu">Jabatan Pimpinan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('pimpinan') }}" aria-expanded="false">
+                        <i class="mdi mdi-alert-outline"></i>
+                        <span class="hide-menu">Pimpinan</span>
                     </a>
                 </li>
             </ul>

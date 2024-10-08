@@ -21,8 +21,8 @@ class RuanganController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'no_ruangan' => 'required|unique:ruangan',
-            'jam' => 'required'
+            'nama_ruangan' => 'required',
+            'no_ruangan' => 'required|unique:ruangan'
         ]);
 
         Ruangan::create($request->all());
@@ -39,8 +39,8 @@ class RuanganController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'no_ruangan' => 'required|unique:ruangan,no_ruangan,'.$id,
-            'jam' => 'required'
+            'nama_ruangan' => 'required',
+            'no_ruangan' => 'required|unique:ruangan,no_ruangan,' . $id
         ]);
 
         $ruangan = Ruangan::findOrFail($id);

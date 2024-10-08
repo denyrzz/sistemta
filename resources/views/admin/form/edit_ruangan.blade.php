@@ -16,15 +16,13 @@
 
     <form action="{{ route('ruangan.update', $ruangan->id) }}" method="POST">
         @csrf
-        @method('PUT')
+        <div class="form-group">
+            <label for="nama_ruangan">Nama Ruangan</label>
+            <input type="text" name="nama_ruangan" class="form-control" value="{{ $ruangan->nama_ruangan }}" required>
+        </div>
         <div class="form-group">
             <label for="no_ruangan">No Ruangan</label>
             <input type="text" name="no_ruangan" class="form-control" value="{{ $ruangan->no_ruangan }}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="jam">Jam</label>
-            <input type="time" name="jam" class="form-control" value="{{ $ruangan->jam }}" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>

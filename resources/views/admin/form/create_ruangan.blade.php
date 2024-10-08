@@ -17,13 +17,12 @@
     <form action="{{ route('ruangan') }}" method="POST">
         @csrf
         <div class="form-group">
+            <label for="nama_ruangan">Nama Ruangan</label>
+            <input type="text" name="nama_ruangan" class="form-control" required>
+        </div>
+        <div class="form-group">
             <label for="no_ruangan">No Ruangan</label>
             <input type="text" name="no_ruangan" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label for="jam">Jam</label>
-            <input type="time" name="jam" class="form-control" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

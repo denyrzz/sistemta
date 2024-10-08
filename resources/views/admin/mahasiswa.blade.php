@@ -17,7 +17,7 @@
                                 <i class="mdi mdi-home-outline fs-4"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Daftar Ruangan</li>
+                        <li class="breadcrumb-item active" aria-current="page">Data Mahasiswa</li>
                     </ol>
                 </nav>
             </div>
@@ -30,28 +30,32 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Tabel Ruangan</h4>
-                            <a href="{{ route('ruangan.create') }}" class="btn btn-primary text-white">Tambah Ruangan</a>
+                            <h4 class="card-title">Tabel Mahasiswa</h4>
+                            <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary text-white">Tambah Mahasiswa</a>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="ruanganTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead class="table">
                                     <tr>
-                                        <th>NO</th>
-                                        <th>Nama Ruangan</th>
-                                        <th>No Ruangan</th>
+                                        <th>No</th>
+                                        <th>NIM</th>
+                                        <th>Nama Mahasiswa</th>
+                                        <th>Program Studi</th>
+                                        <th>Jenis Kelamin</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data_ruangan as $index => $data)
+                                    @foreach ($data_mahasiswa as $index => $data)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $data->nama_ruangan }}</td>
-                                            <td>{{ $data->no_ruangan }}</td>
+                                            <td>{{ $data->nim }}</td>
+                                            <td>{{ $data->nama }}</td>
+                                            <td>{{ $data->prodi_nama }}</td>
+                                            <td>{{ $data->jekel }}</td>
                                             <td>
-                                                <a href="{{ route('ruangan.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="{{ route('ruangan.destroy', $data->id) }}" method="POST" style="display:inline;">
+                                                <a href="{{ route('mahasiswa.edit', $data->id_mhs) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('mahasiswa.destroy', $data->id_mhs) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
@@ -72,7 +76,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('#ruanganTable').DataTable({
+            $('#dataTable').DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "pageLength": 10,

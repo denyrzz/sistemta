@@ -6,6 +6,10 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\JabatanPimpinanController;
+use App\Http\Controllers\PimpinanController;
+use App\Models\JabatanPimpinan;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +72,31 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/ruangan/{id}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+    Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
+    Route::post('/mahasiswa', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
+    Route::get('/mahasiswa/edit/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+    Route::put('/mahasiswa/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+    Route::delete('/mahasiswa/{id}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/jabatan_pimpinan', [JabatanPimpinanController::class, 'index'])->name('jabatan_pimpinan');
+    Route::get('/jabatan_pimpinan/create', [JabatanPimpinanController::class, 'create'])->name('jabatan_pimpinan.create');
+    Route::post('/jabatan_pimpinan', [JabatanPimpinanController::class, 'store'])->name('jabatan_pimpinan.store');
+    Route::get('/jabatan_pimpinan/edit/{id}', [JabatanPimpinanController::class, 'edit'])->name('jabatan_pimpinan.edit');
+    Route::put('/jabatan_pimpinan/update/{id}', [JabatanPimpinanController::class, 'update'])->name('jabatan_pimpinan.update');
+    Route::delete('/jabatan_pimpinan/{id}', [JabatanPimpinanController::class, 'destroy'])->name('jabatan_pimpinan.destroy');
+});
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pimpinan', [PimpinanController::class, 'index'])->name('pimpinan');
+    Route::get('/pimpinan/create', [PimpinanController::class, 'create'])->name('pimpinan.create');
+    Route::post('/pimpinan', [PimpinanController::class, 'store'])->name('pimpinan.store');
+    Route::get('/pimpinan/edit/{id}', [PimpinanController::class, 'edit'])->name('pimpinan.edit');
+    Route::put('/pimpinan/update/{id}', [PimpinanController::class, 'update'])->name('pimpinan.update');
+    Route::delete('/pimpinan/{id}', [PimpinanController::class, 'destroy'])->name('pimpinan.destroy');
+});
 require __DIR__.'/auth.php';
