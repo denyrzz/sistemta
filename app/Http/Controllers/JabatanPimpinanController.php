@@ -28,7 +28,7 @@ class JabatanPimpinanController extends Controller
 
         JabatanPimpinan::create($request->all());
 
-        return redirect()->route('jabatan_pimpinan')->with('success', 'Data created successfully.');
+        return redirect()->route('jabatan_pimpinan')->with('success', 'Jabatan berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -48,7 +48,7 @@ class JabatanPimpinanController extends Controller
         $jabatan = JabatanPimpinan::findOrFail($id);
         $jabatan->update($request->all());
 
-        return redirect()->route('jabatan_pimpinan')->with('success', 'Data updated successfully.');
+        return redirect()->route('jabatan_pimpinan')->with('success', 'Jabatan berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -56,6 +56,6 @@ class JabatanPimpinanController extends Controller
         $jabatan = JabatanPimpinan::findOrFail($id);
         $jabatan->delete();
 
-        return redirect()->route('jabatan_pimpinan')->with('success', 'Data deleted successfully.');
+        return redirect()->route('jabatan_pimpinan')->with('success', 'Jabatan berhasil dihapus.');
     }
 }

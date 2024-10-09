@@ -16,11 +16,20 @@
         </div>
         <div class="mb-3">
             <label for="status_jabatan_pimpinan" class="form-label">Status</label>
-            <select class="form-select" id="status_jabatan_pimpinan" name="status_jabatan_pimpinan" required>
-                <option value="1" {{ $jabatan->status_jabatan_pimpinan == '1' ? 'selected' : '' }}>Active</option>
-                <option value="0" {{ $jabatan->status_jabatan_pimpinan == '0' ? 'selected' : '' }}>Inactive</option>
-            </select>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_jabatan_pimpinan" id="status_active" value="1"
+                    {{ $jabatan->status_jabatan_pimpinan == '1' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="status_active">Aktif</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_jabatan_pimpinan" id="status_inactive" value="0"
+                    {{ $jabatan->status_jabatan_pimpinan == '0' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="status_inactive">Tidak Aktif</label>
+                </div>
+            </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ route('jabatan_pimpinan') }}" class="btn btn-secondary">Cancel</a>
     </form>

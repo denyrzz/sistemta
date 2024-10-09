@@ -30,11 +30,18 @@
         </div>
         <div class="mb-3">
             <label for="status_pimpinan" class="form-label">Status</label>
-            <select name="status_pimpinan" class="form-select" required>
-                <option value="1">Aktif</option>
-                <option value="0">Tidak Aktif</option>
-            </select>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_aktif" value="1" required>
+                    <label class="form-check-label" for="status_aktif">Aktif</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_tidak_aktif" value="0" required>
+                    <label class="form-check-label" for="status_tidak_aktif">Tidak Aktif</label>
+                </div>
+            </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>

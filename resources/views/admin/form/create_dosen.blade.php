@@ -30,12 +30,22 @@
                 <input type="text" name="nip" class="form-control" required>
             </div>
 
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select name="gender" class="form-control" required>
-                    <option value="Laki-Laki">Laki-Laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
+            <div class="mb-3">
+                <label class="form-label">Gender</label>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="genderLakiLaki" value="Laki-Laki" required>
+                        <label class="form-check-label" for="genderLakiLaki">
+                            Laki-Laki
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="genderPerempuan" value="Perempuan" required>
+                        <label class="form-check-label" for="genderPerempuan">
+                            Perempuan
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -61,10 +71,24 @@
                 <input type="email" name="email" class="form-control" required>
             </div>
 
-            <div class="form-group">
-                <label for="status">Status</label>
-                <input type="text" name="status" class="form-control">
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="statusAktif" value="1" checked>
+                        <label class="form-check-label" for="statusAktif">
+                            Aktif
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="status" id="statusTidakAktif" value="0">
+                        <label class="form-check-label" for="statusTidakAktif">
+                            Tidak Aktif
+                        </label>
+                    </div>
+                </div>
             </div>
+
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

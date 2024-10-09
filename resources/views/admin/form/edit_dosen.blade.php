@@ -68,12 +68,25 @@
                                     required>
                             </div>
 
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <input type="text" name="status" class="form-control" value="{{ $dosen->status }}">
+                            <div class="mb-3">
+                                <label>Status</label>
+                                <div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status" id="statusAktif" value="1" {{ $dosen->status == 1 ? 'checked' : '' }} required>
+                                        <label class="form-check-label" for="statusAktif">
+                                            Aktif
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status" id="statusTidakAktif" value="0" {{ $dosen->status == 0 ? 'checked' : '' }} required>
+                                        <label class="form-check-label" for="statusTidakAktif">
+                                            Tidak Aktif
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary">Update</button>
+                            <a href="{{ route('dosen') }}" class="btn btn-secondary">Batal</a>
                         </form>
                     </div>
                 @endsection

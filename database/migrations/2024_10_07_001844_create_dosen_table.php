@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_prodi');
             $table->string('email')->unique();
             $table->string('image')->nullable();
-            $table->string('status')->nullable();
+            $table->enum('status',[0,1]);
 
             // Foreign keys
             $table->foreign('id_prodi')->references('id_prodi')->on('prodi')

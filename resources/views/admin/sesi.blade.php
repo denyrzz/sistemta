@@ -7,6 +7,7 @@
         </div>
     @endif
 
+    <!-- Breadcrumb -->
     <div class="page-breadcrumb">
         <div class="row align-items-center">
             <div class="col-6">
@@ -17,53 +18,44 @@
                                 <i class="mdi mdi-home-outline fs-4"></i>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Data Mahasiswa</li>
+                        <li class="breadcrumb-item active" aria-current="page">Data Sesi</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 
+    <!-- Tabel Data Sesi -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Tabel Mahasiswa</h4>
-                            <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary text-white">Tambah Mahasiswa</a>
+                            <h4 class="card-title">Tabel Sesi</h4>
+                            <a href="{{ route('sesi.create') }}" class="btn btn-primary text-white">
+                                <i class="bi bi-plus-circle"></i> Tambah Sesi
+                            </a>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered table-striped" id="sesiTable" width="100%" cellspacing="0">
                                 <thead class="table">
                                     <tr>
                                         <th>No</th>
-                                        <th>NIM</th>
-                                        <th>Nama Mahasiswa</th>
-                                        <th>Program Studi</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Gambar</th>
+                                        <th>Dari Jam</th>
+                                        <th>Sampai Jam</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data_mahasiswa as $index => $data)
+                                    @foreach ($data_sesi as $index => $data)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $data->nim }}</td>
-                                            <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->prodi_nama }}</td>
-                                            <td>{{ $data->jekel }}</td>
+                                            <td>{{ $data->dari_jam }}</td>
+                                            <td>{{ $data->sampai_jam }}</td>
                                             <td>
-                                                @if($data->image)
-                                                    <img src="{{ asset('images/mahasiswa/' . $data->image) }}" alt="Gambar {{ $data->nama }}" style="width: 50px; height: auto;">
-                                                @else
-                                                    <img src="{{ asset('images/default.png') }}" alt="Default Image" style="width: 50px; height: auto;">
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('mahasiswa.edit', $data->id_mhs) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="{{ route('mahasiswa.destroy', $data->id_mhs) }}" method="POST" style="display:inline;">
+                                                <a href="{{ route('sesi.edit', $data->id_sesi) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('sesi.destroy', $data->id_sesi) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
@@ -84,7 +76,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable({
+            $('#sesiTable').DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "pageLength": 10,

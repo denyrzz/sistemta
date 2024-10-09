@@ -9,6 +9,7 @@ use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\JabatanPimpinanController;
 use App\Http\Controllers\PimpinanController;
+use App\Http\Controllers\SesiController;
 use App\Models\JabatanPimpinan;
 
 /*
@@ -98,5 +99,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pimpinan/edit/{id}', [PimpinanController::class, 'edit'])->name('pimpinan.edit');
     Route::put('/pimpinan/update/{id}', [PimpinanController::class, 'update'])->name('pimpinan.update');
     Route::delete('/pimpinan/{id}', [PimpinanController::class, 'destroy'])->name('pimpinan.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/sesi', [SesiController::class, 'index'])->name('sesi');
+    Route::get('/sesi/create', [SesiController::class, 'create'])->name('sesi.create');
+    Route::post('/sesi', [SesiController::class, 'store'])->name('sesi.store');
+    Route::get('/sesi/{id_sesi}/edit', [SesiController::class, 'edit'])->name('sesi.edit');
+    Route::put('/sesi/{id_sesi}', [SesiController::class, 'update'])->name('sesi.update');
+    Route::delete('/sesi/{id}', [SesiController::class, 'destroy'])->name('sesi.destroy');
 });
 require __DIR__.'/auth.php';

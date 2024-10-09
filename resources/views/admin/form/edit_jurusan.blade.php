@@ -23,6 +23,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update</button>
+                            <a href="{{ route('jurusan') }}" class="btn btn-secondary">Batal</a>
                         </form>
                     </div>
                 </div>

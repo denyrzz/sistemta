@@ -40,10 +40,10 @@
                                         <th>NO</th>
                                         <th>Nama Dosen</th>
                                         <th>NIDN</th>
-                                        <th>NIP</th>
                                         <th>Jenis Kelamin</th>
                                         <th>Jurusan</th>
                                         <th>Prodi</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -53,10 +53,16 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->nama_dosen }}</td>
                                             <td>{{ $data->nidn }}</td>
-                                            <td>{{ $data->nip }}</td>
                                             <td>{{ $data->jenis_kelamin }}</td>
                                             <td>{{ $data->jurusan }}</td>
                                             <td>{{ $data->prodi }}</td>
+                                            <td>
+                                                @if ($data->status == 0)
+                                                    Tidak Aktif
+                                                @else
+                                                    Aktif
+                                                @endif
+                                            </td>
                                             <td>
                                                 <a href="{{ route('dosen.edit', $data->id_dosen) }}" class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="{{ route('dosen.destroy', $data->id_dosen) }}" method="POST" style="display:inline;">

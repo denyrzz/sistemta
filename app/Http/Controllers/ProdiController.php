@@ -27,7 +27,7 @@ class ProdiController extends Controller
         ];
 
         DB::table('prodi')->insert($data);
-        return redirect()->route('prodi')->with('success', 'Data Prodi berhasil ditambahkan.');
+        return redirect()->route('prodi')->with('success', 'Prodi berhasil ditambahkan.');
     }
 
     public function edit(string $id)
@@ -64,13 +64,13 @@ class ProdiController extends Controller
 
         DB::table('prodi')->where('id_prodi', $id)->update($data);
 
-        return redirect()->route('prodi')->with('success', 'Data Prodi berhasil diperbarui.');
+        return redirect()->route('prodi')->with('success', 'Prodi berhasil diperbarui.');
     }
 
 
     public function destroy(string $id)
     {
         DB::table('prodi')->where('id_prodi', $id)->delete();
-        return redirect()->route('prodi')->with('success', 'Data Prodi berhasil dihapus.');
+        return redirect()->route('prodi')->with('success', 'Prodi berhasil dihapus.');
     }
 }

@@ -29,19 +29,19 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('ruangan') }}" aria-expanded="false">
-                        <i class="mdi mdi-file"></i>
+                        <i class="mdi mdi-home-variant"></i>
                         <span class="hide-menu">Ruangan</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('mahasiswa') }}" aria-expanded="false">
-                        <i class="mdi mdi-alert-outline"></i>
+                        <i class="mdi mdi-account-multiple"></i>
                         <span class="hide-menu">Mahasiswa</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('jabatan_pimpinan') }}" aria-expanded="false">
-                        <i class="mdi mdi-alert-outline"></i>
+                        <i class="mdi mdi-account-network"></i>
                         <span class="hide-menu">Jabatan Pimpinan</span>
                     </a>
                 </li>
@@ -49,6 +49,12 @@
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('pimpinan') }}" aria-expanded="false">
                         <i class="mdi mdi-alert-outline"></i>
                         <span class="hide-menu">Pimpinan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('sesi') }}" aria-expanded="false">
+                        <i class="mdi mdi-clock"></i>
+                        <span class="hide-menu">Sesi</span>
                     </a>
                 </li>
             </ul>

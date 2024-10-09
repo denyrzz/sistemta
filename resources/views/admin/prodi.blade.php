@@ -40,6 +40,7 @@
                                         <th>NO</th>
                                         <th>Kode Prodi</th>
                                         <th>Prodi</th>
+                                        <th>Jenjang</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -49,6 +50,7 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->kode_prodi }}</td>
                                             <td>{{ $data->prodi }}</td>
+                                            <td>{{ $data->jenjang }}</td>
                                             <td>
                                                 <a href="{{ route('prodi.edit', $data->id_prodi) }}"
                                                     class="btn btn-warning btn-sm">Edit</a>

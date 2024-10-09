@@ -31,12 +31,22 @@
         </div>
         <div class="mb-3">
             <label for="status_pimpinan" class="form-label">Status</label>
-            <select name="status_pimpinan" class="form-select" required>
-                <option value="1" {{ $pimpinan->status_pimpinan == '1' ? 'selected' : '' }}>Aktif</option>
-                <option value="0" {{ $pimpinan->status_pimpinan == '0' ? 'selected' : '' }}>Tidak Aktif</option>
-            </select>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_aktif" value="1"
+                    {{ $pimpinan->status_pimpinan == '1' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="status_aktif">Aktif</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_tidak_aktif" value="0"
+                    {{ $pimpinan->status_pimpinan == '0' ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="status_tidak_aktif">Tidak Aktif</label>
+                </div>
+            </div>
         </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('pimpinan') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

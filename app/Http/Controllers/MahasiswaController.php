@@ -67,10 +67,8 @@ class MahasiswaController extends Controller
         // Simpan data mahasiswa ke database
         Mahasiswa::create($mahasiswaData);
 
-        return redirect('/mahasiswa')->with('success', 'Student added successfully.');
+        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil ditambahkan.');
     }
-
-
 
 
     public function edit($id)
@@ -119,7 +117,7 @@ class MahasiswaController extends Controller
             'image' => $imageName, // Simpan nama file gambar baru atau lama
         ]);
 
-        return redirect('/mahasiswa')->with('success', 'Student updated successfully.');
+        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil diupdate.');
     }
 
     public function show($id)
@@ -138,7 +136,7 @@ class MahasiswaController extends Controller
     public function destroy($id)
     {
         DB::table('mahasiswa')->where('id_mhs', $id)->delete();
-        return redirect('/mahasiswa')->with('success', 'Student deleted successfully.');
+        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil dihapus.');
     }
 
     // function export_excel()

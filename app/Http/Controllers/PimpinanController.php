@@ -33,7 +33,7 @@ class PimpinanController extends Controller
 
         Pimpinan::create($request->all());
 
-        return redirect()->route('pimpinan')->with('success', 'Data created successfully.');
+        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -56,7 +56,7 @@ class PimpinanController extends Controller
         $pimpinan = Pimpinan::findOrFail($id);
         $pimpinan->update($request->all());
 
-        return redirect()->route('pimpinan')->with('success', 'Data updated successfully.');
+        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -64,6 +64,6 @@ class PimpinanController extends Controller
         $pimpinan = Pimpinan::findOrFail($id);
         $pimpinan->delete();
 
-        return redirect()->route('pimpinan')->with('success', 'Data deleted successfully.');
+        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil dihapus.');
     }
 }
