@@ -34,13 +34,15 @@
                 <label class="form-label">Gender</label>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender" id="genderLakiLaki" value="Laki-Laki" required>
+                        <input class="form-check-input" type="radio" name="gender" id="genderLakiLaki" value="Laki-Laki"
+                            required>
                         <label class="form-check-label" for="genderLakiLaki">
                             Laki-Laki
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gender" id="genderPerempuan" value="Perempuan" required>
+                        <input class="form-check-input" type="radio" name="gender" id="genderPerempuan" value="Perempuan"
+                            required>
                         <label class="form-check-label" for="genderPerempuan">
                             Perempuan
                         </label>
@@ -51,6 +53,7 @@
             <div class="form-group">
                 <label for="jurusan">Jurusan</label>
                 <select name="jurusan" class="form-control" required>
+                    <option value="" selected disabled>Pilih Jurusan</option>
                     @foreach ($jurusan as $j)
                         <option value="{{ $j->id_jurusan }}">{{ $j->jurusan }}</option>
                     @endforeach
@@ -60,8 +63,9 @@
             <div class="form-group">
                 <label for="prodi">Prodi</label>
                 <select name="prodi" class="form-control" required>
+                    <option value="" selected disabled>Pilih Prodi</option>
                     @foreach ($prodi as $p)
-                        <option value="{{ $p->id_prodi }}">{{ $p->prodi }}</option>
+                        <option value="{{ $p->id_prodi }}" data-jurusan="{{ $p->id_jurusan }}">{{ $p->prodi }}</option>
                     @endforeach
                 </select>
             </div>
@@ -75,7 +79,8 @@
                 <label class="form-label">Status</label>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="statusAktif" value="1" checked>
+                        <input class="form-check-input" type="radio" name="status" id="statusAktif" value="1"
+                            checked>
                         <label class="form-check-label" for="statusAktif">
                             Aktif
                         </label>
@@ -91,6 +96,7 @@
 
 
             <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ route('dosen') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>
 @endsection

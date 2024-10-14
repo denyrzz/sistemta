@@ -20,12 +20,12 @@
 
                                 <div class="form-group">
                                     <label for="dari_jam">Dari Jam:</label>
-                                    <input type="time" name="dari_jam" class="form-control" value="{{ old('dari_jam', $sesi->dari_jam) }}" required>
+                                    <input type="time" name="dari_jam" class="form-control" value="{{ $sesi->dari_jam }}" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="sampai_jam">Sampai Jam:</label>
-                                    <input type="time" name="sampai_jam" class="form-control" value="{{ old('sampai_jam', $sesi->sampai_jam) }}" required>
+                                    <input type="time" name="sampai_jam" class="form-control" value="{{ $sesi->sampai_jam }}" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-success">Simpan</button>

@@ -25,10 +25,8 @@
                                     <input type="time" name="sampai_jam" class="form-control" required>
                                 </div>
 
-                                <div class="d-flex justify-content-between">
                                     <button type="submit" class="btn btn-success">Simpan</button>
-                                    <a href="{{ route('sesi') }}" class="btn btn-secondary">Batal</a> <!-- Changed route -->
-                                </div>
+                                    <a href="{{ route('sesi') }}" class="btn btn-secondary">Batal</a>
                             </form>
                         </div>
                     </div>

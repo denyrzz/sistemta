@@ -26,6 +26,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{{ route('ruangan') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

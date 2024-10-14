@@ -43,6 +43,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{{ route('pimpinan') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

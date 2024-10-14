@@ -44,7 +44,6 @@ class DosenController extends Controller
             'email' => 'required|string|email|unique:dosen,email',
         ]);
 
-        // Insert new record into the dosen table
         DB::table('dosen')->insert([
             'nama_dosen' => $request->nama_dosen,
             'nidn' => $request->nidn,
