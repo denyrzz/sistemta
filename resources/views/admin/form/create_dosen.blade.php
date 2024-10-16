@@ -65,7 +65,7 @@
                 <select name="prodi" class="form-control" required>
                     <option value="" selected disabled>Pilih Prodi</option>
                     @foreach ($prodi as $p)
-                        <option value="{{ $p->id_prodi }}" data-jurusan="{{ $p->id_jurusan }}">{{ $p->prodi }}</option>
+                        <option value="{{ $p->id_prodi }}">{{ $p->prodi }}</option>
                     @endforeach
                 </select>
             </div>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pimpinan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('dosen_id');
-            $table->unsignedBigInteger('jabatan_pimpinan_id');
+            $table->unsignedBigInteger('jabatan_id');
             $table->string('periode');
             $table->enum('status_pimpinan', ['0', '1'])->default(1);
             $table->timestamps();
@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::table('pimpinan', function (Blueprint $table) {
             $table->foreign('dosen_id')->references('id_dosen')->on('dosen')
                     ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('jabatan_pimpinan_id')->references('id_jabatan_pimpinan')->on('jabatan_pimpinan')
+            $table->foreign('jabatan_id')->references('id_jabatan')->on('jabatan_pimpinan')
                     ->onUpdate('cascade')->onDelete('cascade');
         });
     }

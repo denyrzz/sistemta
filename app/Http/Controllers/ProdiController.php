@@ -2,75 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prodi;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 
 class ProdiController extends Controller
 {
     public function index()
     {
-        $data_prodi = DB::table('prodi')
-            ->orderBy('id_prodi')
-            ->get();
+        $data_prodi = Prodi::orderBy('id_prodi')->get();
 
         return view('admin.prodi', compact('data_prodi'));
     }
 
+    public function create()
+    {
+        $jurusan = Jurusan::orderBy('id_jurusan')->get();
+        return view('admin.form.create_prodi', compact('jurusan'));
+    }
+
     public function store(Request $request)
     {
-        $data = [
+        $request->validate([
+            'kode_prodi' => 'required|string|max:255',
+            'prodi' => 'required|string|max:255',
+            'jurusan_id' => 'required|exists:jurusan,id_jurusan',
+            'jenjang' => 'required|string|max:255',
+        ]);
+
+        Prodi::create([
             'kode_prodi' => $request->kode_prodi,
             'prodi' => $request->prodi,
-            'id_jurusan' => $request->id_jurusan,
-            'jenjang' => $request->jenjang
-        ];
+            'jurusan_id' => $request->jurusan_id,
+            'jenjang' => $request->jenjang,
+        ]);
 
-        DB::table('prodi')->insert($data);
         return redirect()->route('prodi')->with('success', 'Prodi berhasil ditambahkan.');
     }
 
     public function edit(string $id)
     {
-        $prodi = DB::table('prodi')->where('id_prodi', $id)->first();
+        $prodi = Prodi::findOrFail($id);
 
-        $jurusan = DB::table('jurusan')->orderBy('id_jurusan')->get();
+        $jurusan = Jurusan::orderBy('id_jurusan')->get();
 
         return view('admin.form.edit_prodi', compact('prodi', 'jurusan'));
     }
 
-    public function create()
-    {
-        $jurusan = DB::table('jurusan')->orderBy('id_jurusan')->get();
-        return view('admin.form.create_prodi', compact('jurusan'));
-    }
-
     public function update(Request $request, string $id)
     {
-
         $request->validate([
             'kode_prodi' => 'required|string|max:255',
             'prodi' => 'required|string|max:255',
-            'id_jurusan' => 'required|exists:jurusan,id_jurusan',
+            'jurusan_id' => 'required|exists:jurusan,id_jurusan',
             'jenjang' => 'required|string|max:255',
         ]);
 
-        $data = [
+        $prodi = Prodi::findOrFail($id);
+
+        $prodi->update([
             'kode_prodi' => $request->kode_prodi,
             'prodi' => $request->prodi,
-            'id_jurusan' => $request->id_jurusan,
+            'jurusan_id' => $request->jurusan_id,
             'jenjang' => $request->jenjang,
-        ];
-
-        DB::table('prodi')->where('id_prodi', $id)->update($data);
+        ]);
 
         return redirect()->route('prodi')->with('success', 'Prodi berhasil diperbarui.');
     }
 
-
     public function destroy(string $id)
     {
-        DB::table('prodi')->where('id_prodi', $id)->delete();
+        $prodi = Prodi::findOrFail($id);
+        $prodi->delete();
+
         return redirect()->route('prodi')->with('success', 'Prodi berhasil dihapus.');
     }
 }

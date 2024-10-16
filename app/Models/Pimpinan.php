@@ -13,7 +13,7 @@ class Pimpinan extends Model
 
     protected $fillable = [
         'dosen_id',
-        'jabatan_pimpinan_id',
+        'jabatan_id',
         'periode',
         'status_pimpinan',
     ];
@@ -25,6 +25,6 @@ class Pimpinan extends Model
 
     public function jabatanPimpinan()
     {
-        return $this->belongsTo(JabatanPimpinan::class, 'jabatan_pimpinan_id', 'id_jabatan_pimpinan');
+        return $this->belongsTo(JabatanPimpinan::class, 'jabatan_id', 'id_jabatan'); // Adjusted to match the correct column name in your migration
     }
 }

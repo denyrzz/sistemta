@@ -12,21 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dosen', function (Blueprint $table) {
-            $table->id('id_dosen'); // Primary Key
+            $table->id('id_dosen');
             $table->string('nama_dosen');
-            $table->string('nidn')->unique(); // Unique, not Primary Key
+            $table->string('nidn')->unique();
             $table->string('nip')->unique();
             $table->string('jenis_kelamin');
-            $table->unsignedBigInteger('id_jurusan');
-            $table->unsignedBigInteger('id_prodi');
+            $table->unsignedBigInteger('jurusan_id');
+            $table->unsignedBigInteger('prodi_id');
             $table->string('email')->unique();
             $table->string('image')->nullable();
             $table->enum('status',[0,1]);
 
             // Foreign keys
-            $table->foreign('id_prodi')->references('id_prodi')->on('prodi')
+            $table->foreign('prodi_id')->references('id_prodi')->on('prodi')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan')
+            $table->foreign('jurusan_id')->references('id_jurusan')->on('jurusan')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
 use App\Models\Prodi;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Exports\MahasiswaExport;
+
+use App\Imports\MahasiswaImport;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class MahasiswaController extends Controller
 {
-
 
     public function index()
     {
         $data_mahasiswa = DB::table('mahasiswa')
             ->join('prodi', 'mahasiswa.prodi_id', '=', 'prodi.id_prodi')
             ->select('mahasiswa.*', 'prodi.prodi as prodi_nama')
-            ->orderBy('id_mhs')
+            ->orderBy('id_mahasiswa')
             ->get();
         return view('admin.mahasiswa', compact('data_mahasiswa'));
     }
@@ -35,7 +38,7 @@ class MahasiswaController extends Controller
             'nim' => 'required|unique:mahasiswa,nim',
             'nama' => 'required',
             'prodi_id' => 'required',
-            'jekel' => 'required',
+            'jenis_kelamin' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -50,7 +53,7 @@ class MahasiswaController extends Controller
             'nim' => $request->nim,
             'nama' => $request->nama,
             'prodi_id' => $request->prodi_id,
-            'jekel' => $request->jekel,
+            'jenis_kelamin' => $request->jenis_kelamin,
             'image' => null, // Initialize image to null
         ];
 
@@ -73,7 +76,7 @@ class MahasiswaController extends Controller
 
     public function edit($id)
     {
-        $mahasiswa = Mahasiswa::where('id_mhs', $id)->first();
+        $mahasiswa = Mahasiswa::where('id_mahasiswa', $id)->first();
         $prodi = DB::table('prodi')->get(); // Mendapatkan semua data prodi
         return view('admin.form.edit_mahasiswa', compact('mahasiswa', 'prodi')); // Mengirimkan ke view
     }
@@ -84,12 +87,12 @@ class MahasiswaController extends Controller
             'nim' => 'required',
             'nama' => 'required',
             'prodi_id' => 'required',
-            'jekel' => 'required',
+            'jenis_kelamin' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk file gambar
         ]);
 
         // Ambil data mahasiswa yang ada berdasarkan id
-        $mahasiswa = DB::table('mahasiswa')->where('id_mhs', $id)->first();
+        $mahasiswa = DB::table('mahasiswa')->where('id_mahasiswa', $id)->first();
 
         // Cek apakah ada file gambar yang diupload
         if ($request->hasFile('image')) {
@@ -109,11 +112,11 @@ class MahasiswaController extends Controller
         }
 
         // Perbarui data mahasiswa ke database
-        DB::table('mahasiswa')->where('id_mhs', $id)->update([
+        DB::table('mahasiswa')->where('id_mahasiswa', $id)->update([
             'nim' => $request->nim,
             'nama' => $request->nama,
             'prodi_id' => $request->prodi_id,
-            'jekel' => $request->jekel,
+            'jenis_kelamin' => $request->jenis_kelamin,
             'image' => $imageName, // Simpan nama file gambar baru atau lama
         ]);
 
@@ -126,37 +129,33 @@ class MahasiswaController extends Controller
         $mahasiswa = DB::table('mahasiswa')
             ->join('prodi', 'mahasiswa.prodi_id', '=', 'prodi.id_prodi')
             ->select('mahasiswa.*', 'prodi.nama_prodi')
-            ->where('mahasiswa.id_mhs', $id)
+            ->where('mahasiswa.id_mahasiswa', $id)
             ->first();
 
         // Kirim data mahasiswa ke view detailMahasiswa
         return view('admin.form.formDetailMahasiswa', compact('mahasiswa'));
     }
 
+    public function export()
+    {
+        return Excel::download(new MahasiswaExport, 'datamahasiswa.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        Excel::import(new MahasiswaImport, $request->file('file'));
+        return redirect('mahasiswa')->with('success', 'All good!');
+    }
+
     public function destroy($id)
     {
-        DB::table('mahasiswa')->where('id_mhs', $id)->delete();
+        DB::table('mahasiswa')->where('id_mahasiswa', $id)->delete();
         return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil dihapus.');
     }
 
-    // function export_excel()
-    // {
-    //     return Excel::download(new ExportStudent, "Student.xlsx");
-    // }
-
-    // public function import_excel(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|mimes:csv,xls,xlsx'
-    //     ]);
-
-    //     $file = $request->file('file');
-    //     $name_file = rand() . $file->getClientOriginalName();
-    //     $file->move(public_path('file_student'), $name_file);
-
-    //     Excel::import(new ImportStudent, public_path('file_student/' . $name_file));
-
-    //     return back()->with('success', 'File has been imported successfully.');
-    // }
 
 }

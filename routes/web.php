@@ -11,6 +11,7 @@ use App\Http\Controllers\JabatanPimpinanController;
 use App\Http\Controllers\PimpinanController;
 use App\Http\Controllers\SesiController;
 use App\Models\JabatanPimpinan;
+use App\Models\Mahasiswa;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/edit/{id}', [DosenController::class, 'edit'])->name('dosen.edit');
     Route::post('/dosen/update/{id}', [DosenController::class, 'update'])->name('dosen.update');
     Route::get('/dosen/create', [DosenController::class, 'create'])->name('dosen.create');
+    Route::get('/dosen/export', [DosenController::class, 'export'])->name('dosen.export');
+    Route::post('/dosen/import', [DosenController::class, 'import'])->name('dosen.import');
     Route::delete('/dosen/{id}', [DosenController::class, 'destroy'])->name('dosen.destroy');
 });
 
@@ -79,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mahasiswa', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
     Route::get('/mahasiswa/edit/{id}', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
     Route::put('/mahasiswa/update/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+    Route::get('/mahasiswa/export', [MahasiswaController::class, 'export'])->name('mahasiswa.export');
+    Route::post('/mahasiswa/import', [MahasiswaController::class, 'import'])->name('mahasiswa.import');
     Route::delete('/mahasiswa/{id}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
 });
 

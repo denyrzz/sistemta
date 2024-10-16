@@ -31,7 +31,19 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="card-title">Tabel Mahasiswa</h4>
-                            <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary text-white">Tambah Mahasiswa</a>
+                            <div class="d-flex">
+                                <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary text-white me-2">Tambah</a>
+                                <a href="{{ route('mahasiswa.export') }}" class="btn btn-success  me-2"></i> Export</a>
+                                <button type="button" class="btn btn-info"
+                                    onclick="document.getElementById('fileInput').click()"><i
+                                        class="fas fa-file-import"></i> Import</button>
+                                <form id="importForm" action="{{ route('mahasiswa.import') }}" method="POST"
+                                    enctype="multipart/form-data" style="display:none;">
+                                    @csrf
+                                    <input type="file" id="fileInput" name="file" style="display:none;"
+                                        onchange="document.getElementById('importForm').submit()">
+                                </form>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -53,7 +65,7 @@
                                             <td>{{ $data->nim }}</td>
                                             <td>{{ $data->nama }}</td>
                                             <td>{{ $data->prodi_nama }}</td>
-                                            <td>{{ $data->jekel }}</td>
+                                            <td>{{ $data->jenis_kelamin }}</td>
                                             <td>
                                                 @if($data->image)
                                                     <img src="{{ asset('images/mahasiswa/' . $data->image) }}" alt="Gambar {{ $data->nama }}" style="width: 50px; height: auto;">
@@ -62,8 +74,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('mahasiswa.edit', $data->id_mhs) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="{{ route('mahasiswa.destroy', $data->id_mhs) }}" method="POST" style="display:inline;">
+                                                <a href="{{ route('mahasiswa.edit', $data->id_mahasiswa) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('mahasiswa.destroy', $data->id_mahasiswa) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>

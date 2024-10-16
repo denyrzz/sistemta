@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id('id_prodi');
             $table->string('kode_prodi');
             $table->string('prodi');
-            $table->unsignedBigInteger('id_jurusan');
+            $table->unsignedBigInteger('jurusan_id');
             $table->string('jenjang');
 
-            $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan')
+            $table->foreign('jurusan_id')->references('id_jurusan')->on('jurusan')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
 

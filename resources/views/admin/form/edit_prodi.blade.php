@@ -33,7 +33,11 @@
 
                         <div class="mb-3">
                             <label for="jenjang" class="form-label">Jenjang</label>
-                            <input type="text" class="form-control" id="jenjang" name="jenjang" value="{{ $prodi->jenjang }}" required>
+                            <select class="form-control" id="jenjang" name="jenjang" required>
+                                <option value="D2" {{ $prodi->jenjang == 'D2' ? 'selected' : '' }}>D2</option>
+                                <option value="D3" {{ $prodi->jenjang == 'D3' ? 'selected' : '' }}>D3</option>
+                                <option value="D4" {{ $prodi->jenjang == 'D4' ? 'selected' : '' }}>D4</option>
+                            </select>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Update</button>

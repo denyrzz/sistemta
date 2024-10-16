@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DosenExport;
+use App\Imports\DosenImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class DosenController extends Controller
 {
-
     public function index()
     {
         $data_dosen = DB::table('dosen')
-            ->join('jurusan', 'dosen.id_jurusan', '=', 'jurusan.id_jurusan')
-            ->join('prodi', 'dosen.id_prodi', '=', 'prodi.id_prodi')
+            ->join('jurusan', 'dosen.jurusan_id', '=', 'jurusan.id_jurusan')
+            ->join('prodi', 'dosen.prodi_id', '=', 'prodi.id_prodi')
             ->select('dosen.*', 'jurusan.jurusan', 'prodi.prodi')
             ->orderBy('id_dosen')
             ->get();
@@ -25,7 +25,6 @@ class DosenController extends Controller
 
     public function create()
     {
-        $data_dosen = DB::table('dosen')->get();
         $jurusan = DB::table('jurusan')->orderBy('id_jurusan')->get();
         $prodi = DB::table('prodi')->orderBy('id_prodi')->get();
 
@@ -49,8 +48,8 @@ class DosenController extends Controller
             'nidn' => $request->nidn,
             'nip' => $request->nip,
             'jenis_kelamin' => $request->gender,
-            'id_jurusan' => $request->jurusan,
-            'id_prodi' => $request->prodi,
+            'jurusan_id' => $request->jurusan,
+            'prodi_id' => $request->prodi,
             'email' => $request->email,
             'image' => $request->image,
             'status' => $request->status,
@@ -61,9 +60,7 @@ class DosenController extends Controller
 
     public function edit(string $id)
     {
-        // Fetch the dosen by ID
         $dosen = DB::table('dosen')->where('id_dosen', $id)->first();
-
         $jurusan = DB::table('jurusan')->get();
         $prodi = DB::table('prodi')->get();
 
@@ -74,28 +71,25 @@ class DosenController extends Controller
         }
     }
 
-
     public function update(Request $request, string $id)
     {
-        // Validate the request
         $request->validate([
             'nama_dosen' => 'required|string|max:255',
             'nidn' => 'required|string|unique:dosen,nidn,' . $id . ',id_dosen',
             'nip' => 'required|string|unique:dosen,nip,' . $id . ',id_dosen',
-            'gender' => 'required|string',
+            'jenis_kelamin' => 'required|string',
             'jurusan' => 'required|exists:jurusan,id_jurusan',
             'prodi' => 'required|exists:prodi,id_prodi',
             'email' => 'required|string|email|unique:dosen,email,' . $id . ',id_dosen',
         ]);
 
-        // Update the dosen record
         DB::table('dosen')->where('id_dosen', $id)->update([
             'nama_dosen' => $request->nama_dosen,
             'nidn' => $request->nidn,
             'nip' => $request->nip,
-            'jenis_kelamin' => $request->gender,
-            'id_jurusan' => $request->jurusan,
-            'id_prodi' => $request->prodi,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'jurusan_id' => $request->jurusan,
+            'prodi_id' => $request->prodi,
             'email' => $request->email,
             'image' => $request->image,
             'status' => $request->status,
@@ -104,10 +98,23 @@ class DosenController extends Controller
         return redirect()->route('dosen')->with('success', 'Data Dosen berhasil diupdate');
     }
 
+    public function export()
+    {
+        return Excel::download(new DosenExport, 'datadosen.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        Excel::import(new DosenImport, $request->file('file'));
+        return redirect('dosen')->with('success', 'All good!');
+    }
 
     public function destroy(string $id)
     {
-
         $dosen = DB::table('dosen')->where('id_dosen', $id)->first();
 
         if ($dosen) {

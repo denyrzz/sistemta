@@ -31,7 +31,7 @@
                                     <label for="prodi_id" class="form-label">Program Studi</label>
                                     <select class="form-select" id="prodi_id" name="prodi_id" required>
                                         <option selected disabled>Pilih Program Studi</option>
-                                        @foreach ($prodi as $item)  
+                                        @foreach ($prodi as $item)
                                             <option value="{{ $item->id_prodi }}">{{ $item->prodi }}</option>
                                         @endforeach
                                     </select>
@@ -39,11 +39,11 @@
                                 <div class="mb-3">
                                     <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="laki-laki" name="jekel" value="Laki-Laki" required>
+                                        <input class="form-check-input" type="radio" id="laki-laki" name="jenis_kelamin" value="Laki-Laki" required>
                                         <label class="form-check-label" for="laki-laki">Laki-Laki</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="perempuan" name="jekel" value="Perempuan" required>
+                                        <input class="form-check-input" type="radio" id="perempuan" name="jenis_kelamin" value="Perempuan" required>
                                         <label class="form-check-label" for="perempuan">Perempuan</label>
                                     </div>
                                 </div>

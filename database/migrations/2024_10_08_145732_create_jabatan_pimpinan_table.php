@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jabatan_pimpinan', function (Blueprint $table) {
-            $table->bigIncrements('id_jabatan_pimpinan');
+            $table->bigIncrements('id_jabatan');
             $table->string('jabatan_pimpinan');
-            $table->string('kode_jabatan_pimpinan');
-            $table->enum('status_jabatan_pimpinan', ['0', '1'])->default(1);
+            $table->string('kode_jabatan');
+            $table->enum('status_jabatan', ['0', '1'])->default(1);
             $table->timestamps();
         });
     }

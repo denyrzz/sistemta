@@ -11,13 +11,13 @@ class JabatanPimpinan extends Model
 
     protected $table = 'jabatan_pimpinan';
 
-    protected $primaryKey = 'id_jabatan_pimpinan';
+    protected $primaryKey = 'id_jabatan';
 
-    public $incrementing = false; // Since id is not auto-incrementing
+    public $incrementing = true;
 
     protected $fillable = [
         'jabatan_pimpinan',
-        'kode_jabatan_pimpinan',
-        'status_jabatan_pimpinan',
+        'kode_jabatan',
+        'status_jabatan',
     ];
 }

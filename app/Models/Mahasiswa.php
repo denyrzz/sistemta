@@ -9,14 +9,13 @@ class Mahasiswa extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_mhs',
+        'id_mahasiswa',
         'nim',
         'nama',
         'prodi_id',
-        'jekel',
+        'jenis_kelamin',
         'image',
-        
-        // Add any other attributes that you want to be mass assignable
+
     ];
 
     protected $table = 'mahasiswa';
