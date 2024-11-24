@@ -31,6 +31,7 @@ class DosenExport implements FromCollection, WithHeadings
             'jenis',
             'jurusan',
             'prodi',
+            'golongan',
             'email',
             'image',
             'status'

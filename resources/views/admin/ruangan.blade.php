@@ -50,8 +50,8 @@
                                             <td>{{ $data->nama_ruangan }}</td>
                                             <td>{{ $data->no_ruangan }}</td>
                                             <td>
-                                                <a href="{{ route('ruangan.edit', $data->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="{{ route('ruangan.destroy', $data->id) }}" method="POST" style="display:inline;">
+                                                <a href="{{ route('ruangan.edit', $data->id_ruangan) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('ruangan.destroy', $data->id_ruangan) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>

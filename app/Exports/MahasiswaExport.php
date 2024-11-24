@@ -16,7 +16,7 @@ class MahasiswaExport implements FromCollection, WithHeadings
     {
         $data_mahasiswa = DB::table('mahasiswa')
         ->select('*')
-        ->orderBy('id_mhs')
+        ->orderBy('id_mahasiswa')
         ->get();
     return $data_mahasiswa;
     }

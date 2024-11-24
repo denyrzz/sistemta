@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('prodi') }}" method="POST">
+    <form action="{{ route('prodi.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="kode_prodi" class="form-label">Kode Prodi</label>
@@ -27,7 +27,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="id_jurusan" class="form-label">Jurusan</label>
+            <label for="jurusan_id" class="form-label">Jurusan</label>
             <select class="form-control" id="jurusan_id" name="jurusan_id" required>
                 <option value="">-- Pilih Jurusan --</option>
                 @foreach($jurusan as $item)
@@ -49,7 +49,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('prodi') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('prodi.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

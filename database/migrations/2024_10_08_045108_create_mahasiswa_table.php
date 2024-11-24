@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id('id_mahasiswa');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nim')->unique();
             $table->string('nama');
             $table->unsignedBigInteger('prodi_id');
             $table->string('jenis_kelamin');
             $table->string('image')->nullable();
-            $table->timestamps();
+            $table->string('email')->unique(); // Add email
+            $table->string('password'); // Add password
         });
 
         Schema::table('mahasiswa', function (Blueprint $table) {
             $table->foreign('prodi_id')->references('id_prodi')->on('prodi')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

@@ -2,48 +2,48 @@
 
 @section('content')
 <div class="container-fluid">
-    <h5 class="fw-semibold mb-4">Add Pimpinan</h5>
+    <h2 class="fw-semibold mb-4">Tambah Logbook</h2>
 
-    <form action="{{ route('pimpinan') }}" method="POST">
+    <!-- Logbook Creation Form -->
+    <form action="{{ route('mhs_logbook.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="pkl_id" value="{{ $pklId }}">
+
         <div class="mb-3">
-            <label for="dosen_id" class="form-label">Dosen</label>
-            <select name="dosen_id" class="form-select" required>
-                <option value="">Pilih Dosen</option>
-                @foreach ($dosens as $dosen)
-                    <option value="{{ $dosen->id_dosen }}">{{ $dosen->nama_dosen }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="jabatan_pimpinan_id" class="form-label">Jabatan Pimpinan</label>
-            <select name="jabatan_pimpinan_id" class="form-select" required>
-                <option value="">Pilih Jabatan Pimpinan</option>
-                @foreach ($jabatanPimpinans as $jabatan)
-                    <option value="{{ $jabatan->id_jabatan_pimpinan }}">{{ $jabatan->jabatan_pimpinan }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="periode" class="form-label">Periode</label>
-            <input type="text" name="periode" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="status_pimpinan" class="form-label">Status</label>
-            <div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_aktif" value="1" required>
-                    <label class="form-check-label" for="status_aktif">Aktif</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="status_pimpinan" id="status_tidak_aktif" value="0" required>
-                    <label class="form-check-label" for="status_tidak_aktif">Tidak Aktif</label>
-                </div>
-            </div>
+            <label for="tgl_awal" class="form-label">Tanggal Awal</label>
+            <input type="date" name="tgl_awal" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Create</button>
-        <a href="{{ route('pimpinan') }}" class="btn btn-secondary">Batal</a>
+        <div class="mb-3">
+            <label for="tgl_akhir" class="form-label">Tanggal Akhir</label>
+            <input type="date" name="tgl_akhir" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="kegiatan" class="form-label">Kegiatan</label>
+            <textarea name="kegiatan" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="dokumentasi" class="form-label">Dokumentasi (Opsional)</label>
+            <input type="file" name="dokumentasi" class="form-control-file">
+        </div>
+
+        <div class="mb-3">
+            <label for="komentar" class="form-label">Komentar</label>
+            <textarea name="komentar" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="validasi" class="form-label">Validasi</label>
+            <select name="validasi" class="form-select" required>
+                <option value="0">Belum Validasi</option>
+                <option value="1">Tervalidasi</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tambah</button>
+        <a href="{{ route('mhs_logbook.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('jabatan_pimpinan');
             $table->string('kode_jabatan');
             $table->enum('status_jabatan', ['0', '1'])->default(1);
-            $table->timestamps();
         });
     }
 

@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('jurusan') }}" method="POST">
+            <form action="{{ route('jurusan.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="kode_jurusan">Kode Jurusan</label>
@@ -28,7 +28,7 @@
                     <input type="text" class="form-control" id="jurusan" name="jurusan" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('jurusan') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ route('jurusan.index') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>

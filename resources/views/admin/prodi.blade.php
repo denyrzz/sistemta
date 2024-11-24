@@ -45,25 +45,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data_prodi as $index => $data)
+                                    @forelse ($data_prodi as $index => $data)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->kode_prodi }}</td>
                                             <td>{{ $data->prodi }}</td>
                                             <td>{{ $data->jenjang }}</td>
                                             <td>
-                                                <a href="{{ route('prodi.edit', $data->id_prodi) }}"
-                                                    class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="{{ route('prodi.destroy', $data->id_prodi) }}" method="POST"
-                                                    style="display:inline;">
+                                                <a href="{{ route('prodi.edit', $data->id_prodi) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="{{ route('prodi.destroy', $data->id_prodi) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada data prodi ditemukan.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

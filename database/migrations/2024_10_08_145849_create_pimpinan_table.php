@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('jabatan_id');
             $table->string('periode');
             $table->enum('status_pimpinan', ['0', '1'])->default(1);
-            $table->timestamps();
         });
 
         Schema::table('pimpinan', function (Blueprint $table) {

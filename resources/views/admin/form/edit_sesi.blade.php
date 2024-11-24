@@ -19,17 +19,17 @@
                                 @method('PUT')
 
                                 <div class="form-group">
-                                    <label for="dari_jam">Dari Jam:</label>
-                                    <input type="time" name="dari_jam" class="form-control" value="{{ $sesi->dari_jam }}" required>
+                                    <label for="sesi">Sesi</label>
+                                    <input type="text" name="sesi" class="form-control" value="{{ $sesi->sesi }}" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="sampai_jam">Sampai Jam:</label>
-                                    <input type="time" name="sampai_jam" class="form-control" value="{{ $sesi->sampai_jam }}" required>
+                                    <label for="jam">Jam</label>
+                                    <input type="text" name="jam" class="form-control" value="{{ $sesi->jam }}" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-success">Simpan</button>
-                                <a href="{{ route('sesi') }}" class="btn btn-secondary">Batal</a>
+                                <a href="{{ route('sesi.index') }}" class="btn btn-secondary">Batal</a>
                             </form>
                         </div>
                     </div>

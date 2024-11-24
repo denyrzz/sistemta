@@ -11,6 +11,8 @@ class Ruangan extends Model
 
     protected $table = 'ruangan';
 
+    public $timestamps = false;
+
     protected $primaryKey = 'id';
 
     protected $fillable = [

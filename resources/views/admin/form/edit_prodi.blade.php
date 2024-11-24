@@ -10,21 +10,23 @@
 
                     <form action="{{ route('prodi.update', $prodi->id_prodi) }}" method="POST">
                         @csrf
+                        @method('PUT')
+
                         <div class="mb-3">
                             <label for="kode_prodi" class="form-label">Kode Prodi</label>
-                            <input type="text" class="form-control" id="kode_prodi" name="kode_prodi" value="{{ $prodi->kode_prodi }}" required>
+                            <input type="text" class="form-control" id="kode_prodi" name="kode_prodi" value="{{ old('kode_prodi', $prodi->kode_prodi) }}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="prodi" class="form-label">Nama Prodi</label>
-                            <input type="text" class="form-control" id="prodi" name="prodi" value="{{ $prodi->prodi }}" required>
+                            <input type="text" class="form-control" id="prodi" name="prodi" value="{{ old('prodi', $prodi->prodi) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="id_jurusan" class="form-label">Jurusan</label>
-                            <select class="form-control" id="id_jurusan" name="id_jurusan" required>
+                            <label for="jurusan_id" class="form-label">Jurusan</label>
+                            <select class="form-control" id="jurusan_id" name="jurusan_id" required>
                                 @foreach($jurusan as $j)
-                                    <option value="{{ $j->id_jurusan }}" {{ $j->id_jurusan == $prodi->id_jurusan ? 'selected' : '' }}>
+                                    <option value="{{ $j->id_jurusan }}" {{ $j->id_jurusan == $prodi->jurusan_id ? 'selected' : '' }}>
                                         {{ $j->jurusan }}
                                     </option>
                                 @endforeach
@@ -41,7 +43,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="{{ route('prodi') }}" class="btn btn-secondary">Batal</a>
+                        <a href="{{ route('prodi.index') }}" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>
             </div>

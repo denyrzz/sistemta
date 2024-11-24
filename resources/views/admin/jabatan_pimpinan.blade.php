@@ -47,13 +47,13 @@
                             <tbody>
                                 @foreach ($jabatanPimpinan as $jabatan)
                                     <tr>
-                                        <td>{{ $jabatan->id_jabatan_pimpinan }}</td>
+                                        <td>{{ $jabatan->id_jabatan }}</td>
                                         <td>{{ $jabatan->jabatan_pimpinan }}</td>
-                                        <td>{{ $jabatan->kode_jabatan_pimpinan }}</td>
-                                        <td>{{ $jabatan->status_jabatan_pimpinan == '1' ? 'Aktif' : 'Tidak Aktif' }}</td>
+                                        <td>{{ $jabatan->kode_jabatan }}</td>
+                                        <td>{{ $jabatan->status_jabatan == '1' ? 'Aktif' : 'Tidak Aktif' }}</td>
                                         <td>
-                                            <a href="{{ route('jabatan_pimpinan.edit', $jabatan->id_jabatan_pimpinan) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            <form action="{{ route('jabatan_pimpinan.destroy', $jabatan->id_jabatan_pimpinan) }}" method="POST" style="display:inline;">
+                                            <a href="{{ route('jabatan_pimpinan.edit', $jabatan->id_jabatan) }}" class="btn btn-warning btn-sm">Edit</a>
+                                            <form action="{{ route('jabatan_pimpinan.destroy', $jabatan->id_jabatan) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>

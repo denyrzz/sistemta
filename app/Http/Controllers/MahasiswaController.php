@@ -2,143 +2,132 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Exports\MahasiswaExport;
-
 use App\Imports\MahasiswaImport;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Validator;
 
 class MahasiswaController extends Controller
 {
-
     public function index()
     {
-        $data_mahasiswa = DB::table('mahasiswa')
-            ->join('prodi', 'mahasiswa.prodi_id', '=', 'prodi.id_prodi')
-            ->select('mahasiswa.*', 'prodi.prodi as prodi_nama')
+        $data_mahasiswa = Mahasiswa::with('prodi')
             ->orderBy('id_mahasiswa')
             ->get();
+
         return view('admin.mahasiswa', compact('data_mahasiswa'));
     }
+
     public function create()
     {
-        $prodi = Prodi::all();
+        $prodi = Prodi::orderBy('id_prodi')->get();
         return view('admin.form.create_mahasiswa', compact('prodi'));
     }
 
     public function store(Request $request)
     {
-        // Validasi form
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'nim' => 'required|unique:mahasiswa,nim',
-            'nama' => 'required',
-            'prodi_id' => 'required',
-            'jenis_kelamin' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nama' => 'required|string|max:255',
+            'prodi_id' => 'required|exists:prodi,id_prodi',
+            'jenis_kelamin' => 'required|string',
+            'email' => 'required|string|email|unique:mahasiswa,email',
+            'password' => 'required|string|min:6|confirmed',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = 'public/uploads/mahasiswa/image/';
+            $file->storeAs($path, $filename);
+            $imagePath = $filename;
         }
 
-        // Prepare the data for Mahasiswa creation
-        $mahasiswaData = [
+        Mahasiswa::create([
             'nim' => $request->nim,
             'nama' => $request->nama,
             'prodi_id' => $request->prodi_id,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'image' => null, // Initialize image to null
-        ];
+            'email' => $request->email,
+            'password' => $request->password,
+            'image' => $imagePath,
+            'user_id' => $user->id, // Assuming there's a user_id foreign key in mahasiswa table
+        ]);
 
-        // Proses upload file gambar
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            // Buat nama unik untuk gambar dengan menambahkan timestamp
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            // Pindahkan gambar ke folder public/images/mahasiswa
-            $image->move(public_path('images/mahasiswa'), $imageName);
-            $mahasiswaData['image'] = $imageName; // Set the image name in the data array
-        }
-
-        // Simpan data mahasiswa ke database
-        Mahasiswa::create($mahasiswaData);
-
-        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil ditambahkan.');
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil ditambahkan.');
     }
-
 
     public function edit($id)
     {
-        $mahasiswa = Mahasiswa::where('id_mahasiswa', $id)->first();
-        $prodi = DB::table('prodi')->get(); // Mendapatkan semua data prodi
-        return view('admin.form.edit_mahasiswa', compact('mahasiswa', 'prodi')); // Mengirimkan ke view
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $prodi = Prodi::orderBy('id_prodi')->get();
+        return view('admin.form.edit_mahasiswa', compact('mahasiswa', 'prodi'));
     }
+
     public function update(Request $request, $id)
     {
-        // Validasi form
         $request->validate([
-            'nim' => 'required',
-            'nama' => 'required',
-            'prodi_id' => 'required',
-            'jenis_kelamin' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk file gambar
+            'nim' => 'required|unique:mahasiswa,nim,' . $id . ',id_mahasiswa',
+            'nama' => 'required|string|max:255',
+            'prodi_id' => 'required|exists:prodi,id_prodi',
+            'jenis_kelamin' => 'required|string',
+            'email' => 'required|string|email|unique:mahasiswa,email,' . $id.',id_mahasiswa',
+            'password' => 'nullable|string|min:6|confirmed',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Ambil data mahasiswa yang ada berdasarkan id
-        $mahasiswa = DB::table('mahasiswa')->where('id_mahasiswa', $id)->first();
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $user = User::findOrFail($mahasiswa->user_id);
 
-        // Cek apakah ada file gambar yang diupload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            // Buat nama baru untuk gambar
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            // Pindahkan gambar ke folder public/images/mahasiswa
-            $image->move(public_path('images/mahasiswa'), $imageName);
+        // Update fields
+        $mahasiswa->nim = $request->input('nim');
+        $mahasiswa->nama = $request->input('nama');
+        $mahasiswa->prodi_id = $request->input('prodi_id');
+        $mahasiswa->jenis_kelamin = $request->input('jenis_kelamin');
+        $mahasiswa->email = $request->input('email');
 
-            // Hapus gambar lama jika ada
-            if ($mahasiswa->image && file_exists(public_path('images/mahasiswa/' . $mahasiswa->image))) {
-                unlink(public_path('images/mahasiswa/' . $mahasiswa->image));
-            }
-        } else {
-            // Jika tidak ada gambar baru yang diupload, tetap gunakan gambar lama
-            $imageName = $mahasiswa->image;
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
         }
 
-        // Perbarui data mahasiswa ke database
-        DB::table('mahasiswa')->where('id_mahasiswa', $id)->update([
-            'nim' => $request->nim,
-            'nama' => $request->nama,
-            'prodi_id' => $request->prodi_id,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'image' => $imageName, // Simpan nama file gambar baru atau lama
-        ]);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $path = 'public/uploads/mahasiswa/image/';
+            $file->storeAs($path, $filename);
+            $mahasiswa->image = $filename;
+        }
 
-        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil diupdate.');
+        $user->name = $request->nama; // Update user name
+        $user->email = $request->email; // Update user email
+
+        $mahasiswa->save();
+        $user->save(); // Save the user record
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil diupdate.');
     }
 
     public function show($id)
     {
-        // Mengambil data mahasiswa berdasarkan id beserta data prodi-nya
-        $mahasiswa = DB::table('mahasiswa')
-            ->join('prodi', 'mahasiswa.prodi_id', '=', 'prodi.id_prodi')
-            ->select('mahasiswa.*', 'prodi.nama_prodi')
-            ->where('mahasiswa.id_mahasiswa', $id)
-            ->first();
-
-        // Kirim data mahasiswa ke view detailMahasiswa
+        $mahasiswa = Mahasiswa::with('prodi')->findOrFail($id);
         return view('admin.form.formDetailMahasiswa', compact('mahasiswa'));
     }
 
     public function export()
     {
-        return Excel::download(new MahasiswaExport, 'datamahasiswa.xlsx');
+        return Excel::download(new MahasiswaExport, 'data_mahasiswa.xlsx');
     }
 
     public function import(Request $request)
@@ -148,14 +137,22 @@ class MahasiswaController extends Controller
         ]);
 
         Excel::import(new MahasiswaImport, $request->file('file'));
-        return redirect('mahasiswa')->with('success', 'All good!');
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil diimpor.');
     }
 
     public function destroy($id)
     {
-        DB::table('mahasiswa')->where('id_mahasiswa', $id)->delete();
-        return redirect('/mahasiswa')->with('success', 'Mahasiswa berhasil dihapus.');
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $user = User::find($mahasiswa->user_id);
+
+        // Delete associated user
+        if ($user) {
+            $user->delete();
+        }
+
+        // Delete Mahasiswa record
+        $mahasiswa->delete();
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil dihapus.');
     }
-
-
 }

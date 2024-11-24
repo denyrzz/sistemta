@@ -15,6 +15,8 @@ class JabatanPimpinan extends Model
 
     public $incrementing = true;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'jabatan_pimpinan',
         'kode_jabatan',

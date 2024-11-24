@@ -16,6 +16,8 @@ class DosenImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $status = isset($row['status']) && in_array((string)$row['status'], ['0', '1']) ? (string)$row['status'] : '0';
+        $golongan = isset($row['golongan']) && in_array((string)$row['golongan'], ['1', '2', '3', '4']) ? (string)$row['golongan'] : '1';
+
 
         return new Dosen([
             'id_dosen'      => $row['id'],
@@ -23,8 +25,9 @@ class DosenImport implements ToModel, WithHeadingRow
             'nidn'          => $row['nidn'],
             'nip'           => $row['nip'],
             'jenis_kelamin' => $row['jenis'],
-            'id_jurusan'    => $row['jurusan'],
-            'id_prodi'      => $row['prodi'],
+            'jurusan_id'    => $row['jurusan'],
+            'prodi_id'      => $row['prodi'],
+            'golongan'      => $golongan,
             'email'         => $row['email'],
             'image'         => $row['image'] ?? 'default-image.png',
             'status'        => $status,

@@ -33,7 +33,7 @@
                             <h4 class="card-title">Tabel Mahasiswa</h4>
                             <div class="d-flex">
                                 <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary text-white me-2">Tambah</a>
-                                <a href="{{ route('mahasiswa.export') }}" class="btn btn-success  me-2"></i> Export</a>
+                                <a href="{{ route('mahasiswa.export') }}" class="btn btn-success me-2"></i> Export</a>
                                 <button type="button" class="btn btn-info"
                                     onclick="document.getElementById('fileInput').click()"><i
                                         class="fas fa-file-import"></i> Import</button>
@@ -54,6 +54,7 @@
                                         <th>Nama Mahasiswa</th>
                                         <th>Program Studi</th>
                                         <th>Jenis Kelamin</th>
+                                        <th>Email</th>
                                         <th>Gambar</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -64,8 +65,9 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->nim }}</td>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->prodi_nama }}</td>
+                                            <td>{{ $data->prodi->prodi }}</td>
                                             <td>{{ $data->jenis_kelamin }}</td>
+                                            <td>{{ $data->email }}</td>
                                             <td>
                                                 @if($data->image)
                                                     <img src="{{ asset('images/mahasiswa/' . $data->image) }}" alt="Gambar {{ $data->nama }}" style="width: 50px; height: auto;">

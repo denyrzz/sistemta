@@ -11,6 +11,8 @@ class Pimpinan extends Model
 
     protected $table = 'pimpinan';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'dosen_id',
         'jabatan_id',

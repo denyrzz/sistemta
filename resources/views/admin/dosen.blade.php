@@ -32,16 +32,19 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="card-title">Tabel Dosen</h4>
                             <div class="d-flex">
-                                <a href="{{ route('dosen.create') }}" class="btn btn-primary text-white me-2">Tambah
-                                    Dosen</a>
-                                <a href="{{ route('dosen.export') }}" class="btn btn-success me-2"></i> Export</a>
+                                <a href="{{ route('dosen.create') }}" class="btn btn-primary text-white me-2"></i> Tambah Dosen
+                                </a>
+                                <a href="{{ route('dosen.export') }}" class="btn btn-success me-2"></i> Export
+                                </a>
                                 <button type="button" class="btn btn-info"
-                                    onclick="document.getElementById('fileInput').click()"><i
-                                        class="fas fa-file-import"></i> Import</button>
+                                    onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-file-import"></i> Import
+                                </button>
                                 <form id="importForm" action="{{ route('dosen.import') }}" method="POST"
                                     enctype="multipart/form-data" style="display:none;">
                                     @csrf
                                     <input type="file" id="fileInput" name="file" style="display:none;"
+                                        accept=".xlsx,.csv"
                                         onchange="document.getElementById('importForm').submit()">
                                 </form>
                             </div>
@@ -53,10 +56,8 @@
                                         <th>NO</th>
                                         <th>Nama Dosen</th>
                                         <th>NIDN</th>
-                                        <th>NIP</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Jurusan</th>
                                         <th>Prodi</th>
+                                        <th>Golongan</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -67,10 +68,20 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->nama_dosen }}</td>
                                             <td>{{ $data->nidn }}</td>
-                                            <td>{{ $data->nip }}</td>
-                                            <td>{{ $data->jenis_kelamin }}</td>
-                                            <td>{{ $data->jurusan }}</td>
                                             <td>{{ $data->prodi }}</td>
+                                            <td>
+                                                @if ($data->golongan == 1)
+                                                    Assisten Ahli
+                                                @elseif ($data->golongan == 2)
+                                                    Lector
+                                                @elseif ($data->golongan == 3)
+                                                    Lector Kepala
+                                                @elseif ($data->golongan == 4)
+                                                    Guru Besar
+                                                @else
+                                                    Tidak ada Golongan
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($data->status == 0)
                                                     Tidak Aktif
@@ -79,6 +90,8 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                <a href="{{ route('dosen.show', $data->id_dosen) }}"
+                                                    class="btn btn-info btn-sm">Detail</a>
                                                 <a href="{{ route('dosen.edit', $data->id_dosen) }}"
                                                     class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="{{ route('dosen.destroy', $data->id_dosen) }}" method="POST"
@@ -86,7 +99,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>

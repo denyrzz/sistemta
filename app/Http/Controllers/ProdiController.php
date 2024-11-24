@@ -11,7 +11,6 @@ class ProdiController extends Controller
     public function index()
     {
         $data_prodi = Prodi::orderBy('id_prodi')->get();
-
         return view('admin.prodi', compact('data_prodi'));
     }
 
@@ -30,26 +29,19 @@ class ProdiController extends Controller
             'jenjang' => 'required|string|max:255',
         ]);
 
-        Prodi::create([
-            'kode_prodi' => $request->kode_prodi,
-            'prodi' => $request->prodi,
-            'jurusan_id' => $request->jurusan_id,
-            'jenjang' => $request->jenjang,
-        ]);
+        Prodi::create($request->only(['kode_prodi', 'prodi', 'jurusan_id', 'jenjang']));
 
-        return redirect()->route('prodi')->with('success', 'Prodi berhasil ditambahkan.');
+        return redirect()->route('prodi.index')->with('success', 'Prodi berhasil ditambahkan.');
     }
 
-    public function edit(string $id)
+    public function edit($id)
     {
         $prodi = Prodi::findOrFail($id);
-
-        $jurusan = Jurusan::orderBy('id_jurusan')->get();
-
+        $jurusan = Jurusan::all();
         return view('admin.form.edit_prodi', compact('prodi', 'jurusan'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'kode_prodi' => 'required|string|max:255',
@@ -59,22 +51,20 @@ class ProdiController extends Controller
         ]);
 
         $prodi = Prodi::findOrFail($id);
+        $prodi->update($request->only(['kode_prodi', 'prodi', 'jurusan_id', 'jenjang']));
 
-        $prodi->update([
-            'kode_prodi' => $request->kode_prodi,
-            'prodi' => $request->prodi,
-            'jurusan_id' => $request->jurusan_id,
-            'jenjang' => $request->jenjang,
-        ]);
-
-        return redirect()->route('prodi')->with('success', 'Prodi berhasil diperbarui.');
+        return redirect()->route('prodi.index')->with('success', 'Prodi berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $prodi = Prodi::findOrFail($id);
-        $prodi->delete();
 
-        return redirect()->route('prodi')->with('success', 'Prodi berhasil dihapus.');
+        try {
+            $prodi->delete();
+            return redirect()->route('prodi.index')->with('success', 'Prodi berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('prodi.index')->with('error', 'Prodi gagal dihapus: ' . $e->getMessage());
+        }
     }
 }

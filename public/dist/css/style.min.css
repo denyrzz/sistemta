@@ -11279,7 +11279,7 @@ html[dir=ltr] body .p-l-0 {
 .page-wrapper>.container-xl,
 .page-wrapper>.container-xxl {
     padding: 10px;
-    min-height: calc(100vh - 180px)
+    min-height: auto
 }
 
 .footer {

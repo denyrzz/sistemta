@@ -5,14 +5,14 @@
         <div class="card">
             <div class="card-body">
                 @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <h5 class="card-title fw-semibold mb-4">Tambah Data Mahasiswa</h5>
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
@@ -48,11 +48,24 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password_confirmation">Konfirmasi Password</label>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="image" class="form-label">Upload Foto</label>
                                     <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('mahasiswa') }}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Cancel</a>
                             </form>
                         </div>
                     </div>

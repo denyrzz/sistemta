@@ -22,38 +22,38 @@ class RuanganController extends Controller
     {
         $request->validate([
             'nama_ruangan' => 'required',
-            'no_ruangan' => 'required|unique:ruangan'
+            'no_ruangan' => 'required|unique:ruangan,no_ruangan',
         ]);
 
-        Ruangan::create($request->all());
+        Ruangan::create($request->only(['nama_ruangan', 'no_ruangan']));
 
-        return redirect()->route('ruangan')->with('success', 'Ruangan berhasil ditambahkan.');
+        return redirect()->route('ruangan.index')->with('success', 'Ruangan berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit($id_ruangan)
     {
-        $ruangan = Ruangan::findOrFail($id);
+        $ruangan = Ruangan::findOrFail($id_ruangan);
         return view('admin.form.edit_ruangan', compact('ruangan'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_ruangan)
     {
         $request->validate([
             'nama_ruangan' => 'required',
-            'no_ruangan' => 'required|unique:ruangan,no_ruangan,' . $id
+            'no_ruangan' => 'required|unique:ruangan,no_ruangan,' . $id_ruangan,
         ]);
 
-        $ruangan = Ruangan::findOrFail($id);
-        $ruangan->update($request->all());
+        $ruangan = Ruangan::findOrFail($id_ruangan);
+        $ruangan->update($request->only(['nama_ruangan', 'no_ruangan']));
 
-        return redirect()->route('ruangan')->with('success', 'Ruangan berhasil diupdate.');
+        return redirect()->route('ruangan.index')->with('success', 'Ruangan berhasil diupdate.');
     }
 
-    public function destroy($id)
+    public function destroy($id_ruangan)
     {
-        $ruangan = Ruangan::findOrFail($id);
+        $ruangan = Ruangan::findOrFail($id_ruangan);
         $ruangan->delete();
 
-        return redirect()->route('ruangan')->with('success', 'Ruangan berhasil dihapus.');
+        return redirect()->route('ruangan.index')->with('success', 'Ruangan berhasil dihapus.');
     }
 }

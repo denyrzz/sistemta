@@ -17,11 +17,11 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="jabatan_pimpinan_id" class="form-label">Jabatan Pimpinan</label>
-            <select name="jabatan_pimpinan_id" class="form-select" required>
+            <label for="jabatan_id" class="form-label">Jabatan Pimpinan</label>
+            <select name="jabatan_id" class="form-select" required>
                 <option value="">Pilih Jabatan Pimpinan</option>
                 @foreach ($jabatanPimpinans as $jabatan)
-                    <option value="{{ $jabatan->id_jabatan_pimpinan }}" {{ $jabatan->id_jabatan_pimpinan == $pimpinan->jabatan_pimpinan_id ? 'selected' : '' }}>{{ $jabatan->jabatan_pimpinan }}</option>
+                    <option value="{{ $jabatan->id_jabatan }}" {{ $jabatan->id_jabatan == $pimpinan->jabatan_id ? 'selected' : '' }}>{{ $jabatan->jabatan_pimpinan }}</option>
                 @endforeach
             </select>
         </div>
@@ -46,7 +46,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('pimpinan') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('pimpinan.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

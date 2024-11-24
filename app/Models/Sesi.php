@@ -11,13 +11,12 @@ class Sesi extends Model
 
     protected $table = 'sesi';
 
-
     protected $primaryKey = 'id_sesi';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'dari_jam',
-        'sampai_jam',
+        'sesi',
+        'jam',
     ];
 }

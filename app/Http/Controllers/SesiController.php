@@ -23,16 +23,14 @@ class SesiController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
-            'dari_jam' => 'required|date_format:H:i',
-            'sampai_jam' => 'required|date_format:H:i|after:dari_jam',
+            'sesi' => 'required',
+            'jam' => 'required',
         ]);
-
 
         Sesi::create($request->all());
 
-        return redirect()->route('sesi')
+        return redirect()->route('sesi.index')
             ->with('success', 'Sesi berhasil ditambahkan.');
     }
 
@@ -45,27 +43,22 @@ class SesiController extends Controller
 
     public function update(Request $request, $id_sesi)
     {
-        // Validasi input
         $request->validate([
-            'dari_jam' => 'required|date_format:H:i',
-            'sampai_jam' => 'required|date_format:H:i|after:dari_jam',
+            'sesi' => 'nullable',
+            'jam' => 'nullable',
         ]);
 
-        // Memperbarui sesi
         $sesi = Sesi::findOrFail($id_sesi);
-        $sesi->update($request->all());
 
-        return redirect()->route('sesi')->with('success', 'Sesi berhasil diperbarui.');
+        return redirect()->route('sesi.index')->with('success', 'Sesi berhasil diperbarui.');
     }
-
-
 
     public function destroy($id_sesi)
     {
         $sesi = Sesi::findOrFail($id_sesi);
         $sesi->delete();
 
-        return redirect()->route('sesi')
+        return redirect()->route('sesi.index')
             ->with('success', 'Sesi berhasil dihapus.');
     }
 }

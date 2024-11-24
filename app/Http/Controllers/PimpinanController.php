@@ -26,14 +26,14 @@ class PimpinanController extends Controller
     {
         $request->validate([
             'dosen_id' => 'required|exists:dosen,id_dosen',
-            'jabatan_pimpinan_id' => 'required|exists:jabatan_pimpinan,id_jabatan_pimpinan',
+            'jabatan_id' => 'required|exists:jabatan_pimpinan,id_jabatan',
             'periode' => 'required|string|max:255',
             'status_pimpinan' => 'required|in:0,1',
         ]);
 
-        Pimpinan::create($request->all());
+        Pimpinan::create($request->only(['dosen_id', 'jabatan_id', 'periode', 'status_pimpinan']));
 
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil ditambahkan.');
+        return redirect()->route('pimpinan.index')->with('success', 'Pimpinan berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -48,15 +48,15 @@ class PimpinanController extends Controller
     {
         $request->validate([
             'dosen_id' => 'required|exists:dosen,id_dosen',
-            'jabatan_pimpinan_id' => 'required|exists:jabatan_pimpinan,id_jabatan_pimpinan',
+            'jabatan_id' => 'required|exists:jabatan_pimpinan,id_jabatan',
             'periode' => 'required|string|max:255',
             'status_pimpinan' => 'required|in:0,1',
         ]);
 
         $pimpinan = Pimpinan::findOrFail($id);
-        $pimpinan->update($request->all());
+        $pimpinan->update($request->only(['dosen_id', 'jabatan_id', 'periode', 'status_pimpinan']));
 
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil diupdate.');
+        return redirect()->route('pimpinan.index')->with('success', 'Pimpinan berhasil diupdate.');
     }
 
     public function destroy($id)
@@ -64,6 +64,6 @@ class PimpinanController extends Controller
         $pimpinan = Pimpinan::findOrFail($id);
         $pimpinan->delete();
 
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil dihapus.');
+        return redirect()->route('pimpinan.index')->with('success', 'Pimpinan berhasil dihapus.');
     }
 }

@@ -42,8 +42,8 @@
                                 <thead class="table">
                                     <tr>
                                         <th>No</th>
-                                        <th>Dari Jam</th>
-                                        <th>Sampai Jam</th>
+                                        <th>Sesi</th>
+                                        <th>Jam</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -51,8 +51,8 @@
                                     @foreach ($data_sesi as $index => $data)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $data->dari_jam }}</td>
-                                            <td>{{ $data->sampai_jam }}</td>
+                                            <td>{{ $data->sesi }}</td>
+                                            <td>{{ $data->jam }}</td>
                                             <td>
                                                 <a href="{{ route('sesi.edit', $data->id_sesi) }}" class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="{{ route('sesi.destroy', $data->id_sesi) }}" method="POST" style="display:inline;">

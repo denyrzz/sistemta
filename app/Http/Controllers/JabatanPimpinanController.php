@@ -2,68 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pimpinan;
-use App\Models\Dosen;
 use App\Models\JabatanPimpinan;
 use Illuminate\Http\Request;
 
-class PimpinanController extends Controller
+class JabatanPimpinanController extends Controller
 {
     public function index()
     {
-        $pimpinans = Pimpinan::with(['dosen', 'jabatanPimpinan'])->get();
-        return view('admin.pimpinan', compact('pimpinans'));
+        $jabatanPimpinan = JabatanPimpinan::all();
+        return view('admin.jabatan_pimpinan', compact('jabatanPimpinan'));
     }
 
     public function create()
     {
-        $dosens = Dosen::all();
-        $jabatanPimpinans = JabatanPimpinan::all();
-        return view('admin.form.create_pimpinan', compact('dosens', 'jabatanPimpinans'));
+        return view('admin.form.create_jabatan_pimpinan');
     }
 
     public function store(Request $request)
     {
+
         $request->validate([
-            'dosen_id' => 'required|exists:dosen,id_dosen',
-            'jabatan_id' => 'required|exists:jabatan_pimpinan,id_jabatan',
-            'periode' => 'required|string|max:255',
-            'status_pimpinan' => 'required|in:0,1',
+            'jabatan_pimpinan' => 'required|string|max:255',
+            'kode_jabatan' => 'required|string|max:100',
+            'status_jabatan' => 'required|in:0,1',
         ]);
 
-        Pimpinan::create($request->only(['dosen_id', 'jabatan_id', 'periode', 'status_pimpinan']));
-
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil ditambahkan.');
+        JabatanPimpinan::create($request->all());
+        return redirect()->route('jabatan_pimpinan.index')->with('success', 'Jabatan Pimpinan berhasil ditambahkan.');
     }
 
     public function edit($id)
     {
-        $pimpinan = Pimpinan::findOrFail($id);
-        $dosens = Dosen::all();
-        $jabatanPimpinans = JabatanPimpinan::all();
-        return view('admin.form.edit_pimpinan', compact('pimpinan', 'dosens', 'jabatanPimpinans'));
+
+        $jabatanPimpinan = JabatanPimpinan::findOrFail($id);
+        return view('admin.form.edit_jabatan_pimpinan', compact('jabatanPimpinan'));
     }
 
     public function update(Request $request, $id)
     {
+
         $request->validate([
-            'dosen_id' => 'required|exists:dosen,id_dosen',
-            'jabatan_id' => 'required|exists:jabatan_pimpinan,id_jabatan',
-            'periode' => 'required|string|max:255',
-            'status_pimpinan' => 'required|in:0,1',
+            'jabatan_pimpinan' => 'required|string|max:255',
+            'kode_jabatan' => 'required|string|max:100',
+            'status_jabatan' => 'required|in:0,1',
         ]);
 
-        $pimpinan = Pimpinan::findOrFail($id);
-        $pimpinan->update($request->only(['dosen_id', 'jabatan_id', 'periode', 'status_pimpinan']));
 
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil diupdate.');
+        $jabatanPimpinan = JabatanPimpinan::findOrFail($id);
+        $jabatanPimpinan->update($request->only(['jabatan_pimpinan', 'kode_jabatan', 'status_jabatan']));
+
+        return redirect()->route('jabatan_pimpinan.index')->with('success', 'Jabatan Pimpinan berhasil diupdate.');
     }
 
     public function destroy($id)
     {
-        $pimpinan = Pimpinan::findOrFail($id);
-        $pimpinan->delete();
 
-        return redirect()->route('pimpinan')->with('success', 'Pimpinan berhasil dihapus.');
+        $jabatanPimpinan = JabatanPimpinan::findOrFail($id);
+        $jabatanPimpinan->delete();
+
+        return redirect()->route('jabatan_pimpinan.index')->with('success', 'Jabatan Pimpinan berhasil dihapus.');
     }
 }
