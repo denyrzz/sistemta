@@ -51,7 +51,7 @@
                                             <td>{{ $mhsPkl->mahasiswa->nama }}</td>
                                             <td>{{ $mhsPkl->tempat->nama_perusahaan }}</td>
                                             <td>{{ $mhsPkl->tahun_pkl }}</td>
-                                            <td>{{ $mhsPkl->nilaiBimbingan->nilai_bimbingan }}</td>
+                                            <td>{{ $mhsPkl->nilaiBimbingan->nilai_bimbingan ?? '-' }}</td>
                                             <td>
                                                 <a href="{{ route('dosen.pembimbing.showLogbook', $mhsPkl->id_pkl) }}"
                                                     class="btn btn-primary btn-sm">Show Logbook</a>

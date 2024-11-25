@@ -14,10 +14,11 @@ class DosenPembimbingController extends Controller
     {
         //dd($request->all());
         $dosen = auth()->user()->dosen;
+        $nilaiBimbingan = MhsNilaiBimbinganPkl::all();
 
         $mhsPkl = $dosen->mhsPkl()->with(['mahasiswa', 'tempat'])->get();
 
-        return view('admin.dosen_pembimbing', compact('dosen', 'mhsPkl'));
+        return view('admin.dosen_pembimbing', compact('dosen', 'mhsPkl','nilaiBimbingan'));
     }
 
     public function showLogbook($mhs_pkl_id)

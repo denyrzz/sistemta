@@ -72,6 +72,11 @@ class MhsPkl extends Model
         return $this->hasMany(MhsLogbook::class, 'pkl_id');
     }
 
+    public function nilaiBimbingan()
+    {
+        return $this->hasOne(MhsNilaiBimbinganPkl::class, 'pkl_id', 'id_pkl');
+    }
+
     public function nilaiPembimbing()
     {
         return $this->hasOne(NilaiSidangPkl::class, 'pkl_id', 'id_pkl')->where('status', '0');
