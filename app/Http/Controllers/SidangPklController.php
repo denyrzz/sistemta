@@ -6,6 +6,7 @@ use App\Models\Sesi;
 use App\Models\Dosen;
 use App\Models\MhsPkl;
 use App\Models\Ruangan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class SidangPklController extends Controller
@@ -41,4 +42,28 @@ class SidangPklController extends Controller
 
         return redirect()->back()->with('success', 'Data Sidang PKL berhasil diperbarui.');
     }
+
+    public function generatePDF($id)
+    {
+        $pkl = MhsPkl::with(['mahasiswa', 'dosenpembimbing', 'dosenpenguji', 'ruangan', 'sesi'])->findOrFail($id);
+
+        $data = [
+            'nama_mahasiswa' => $pkl->mahasiswa->nama,
+            'nim' => $pkl->mahasiswa->nim,
+            'prodi' => $pkl->mahasiswa->prodi->prodi,
+            'dosen_pembimbing' => $pkl->dosenpembimbing->nama_dosen ?? '-',
+            'dosen_penguji' => $pkl->dosenpenguji->nama_dosen ?? '-',
+            'nidn_pembimbing' => $pkl->dosenpembimbing->nidn ?? '-',
+            'nidn_penguji' => $pkl->dosenpenguji->nidn ?? '-',
+            'tanggal_sidang' => $pkl->tanggal_sidang,
+            'ruangan' => $pkl->ruangan->nama_ruangan ?? '-',
+            'no_ruangan' => $pkl->ruangan->no_ruangan ?? '-',
+            'sesi' => $pkl->sesi->jam ?? '-',
+        ];
+
+        $pdf = PDF::loadView('admin.surat_tugas_pkl', $data);
+
+        return $pdf->download('Surat_Tugas_' . $data['nama_mahasiswa'] . '.pdf');
+    }
+
 }

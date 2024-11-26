@@ -161,9 +161,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sidang_pkl', [SidangPklController::class, 'index'])->name('sidang_pkl.index');
     Route::put('/sidang_pkl/update/{id_pkl}', [SidangPklController::class, 'update'])->name('sidang_pkl.update');
+    Route::get('/surat_tugas/{id}', [SidangPklController::class, 'generatePDF'])->name('surat_tugas.generatePDF');
+
 
     Route::get('/nilai_sidang_pkl', [NilaiSidangPklController::class, 'index'])->name('nilai_sidang_pkl.index');
     Route::put('/nilai_sidang_pkl/update/{id_pkl}', [NilaiSidangPklController::class, 'update'])->name('nilai_sidang_pkl.update');
-    Route::post('/nilai_sidand_pkl/store', [NilaiSidangPklController::class, 'store'])->name('nilai_sidang_pkl.store');
+    Route::post('/nilai-sidang-pkl/{id}', [NilaiSidangPklController::class, 'store'])->name('nilai_sidang_pkl.store');
+
 });
 require __DIR__ . '/auth.php';

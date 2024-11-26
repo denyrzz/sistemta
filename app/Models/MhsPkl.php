@@ -10,14 +10,11 @@ class MhsPkl extends Model
 {
     use HasFactory;
 
-    // Define the table name if it's not the default pluralized form
     protected $table = 'mhs_pkl';
 
-    // Define the primary key if it's not the default 'id'
     protected $primaryKey = 'id_pkl';
 
     public $timestamps = false;
-    // Specify the attributes that are mass assignable
     protected $fillable = [
         'mahasiswa_id',
         'tempat_id',
@@ -87,4 +84,8 @@ class MhsPkl extends Model
         return $this->hasOne(NilaiSidangPkl::class, 'pkl_id', 'id_pkl')->where('status', '1');
     }
 
+    public function nilaisidangpkl()
+    {
+        return $this->hasOne(NilaiSidangPkl::class, 'pkl_id');
+    }
 }

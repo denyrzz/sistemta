@@ -38,7 +38,6 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>Nama Mahasiswa</th>
-                                        <th>Tempat PKL</th>
                                         <th>Judul PKL</th>
                                         <th>Dosen Pembimbing</th>
                                         <th>Dosen Penguji</th>
@@ -53,7 +52,6 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $mhs->mahasiswa->nama }}</td>
-                                            <td>{{ $mhs->tempat->nama_perusahaan }}</td>
                                             <td>{{ $mhs->judul }}</td>
                                             <td>{{ $mhs->dosenpembimbing->nama_dosen }}</td>
                                             <td>
@@ -64,14 +62,22 @@
                                                 @endif
                                             </td>
                                             <td>{{ $mhs->tanggal_sidang }}</td>
-                                            <td>{{ $mhs->ruangan ? $mhs->ruangan->nama_ruangan : '-' }}</td>
+                                            <td>
+                                                {{ $mhs->ruangan
+                                                    ? ($mhs->ruangan->nama_ruangan && $mhs->ruangan->no_ruangan
+                                                        ? $mhs->ruangan->nama_ruangan . ' - ' . $mhs->ruangan->no_ruangan
+                                                        : '-')
+                                                    : 'N/A' }}
+                                            </td>
                                             <td>{{ $mhs->sesi ? $mhs->sesi->jam : '-' }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-secondary btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#sidangModal{{ $mhs->id_pkl }}">
-                                                Edit
-                                            </button>
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#sidangModal{{ $mhs->id_pkl }}">
+                                                    Edit
+                                                </button>
+                                                <a href="{{ route('surat_tugas.generatePDF', ['id' => $mhs->id_pkl]) }}"
+                                                    class="btn btn-primary text-white btn-sm">Surat Tugas</a>
                                                 {{-- <form action="{{ route('sidang_pkl.destroy', $mhs->id_pkl) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
@@ -88,8 +94,8 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="sidangModalLabel{{ $mhs->id_pkl }}">Atur Sidang PKL
+                                                        <h5 class="modal-title" id="sidangModalLabel{{ $mhs->id_pkl }}">
+                                                            Atur Sidang PKL
                                                         </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
@@ -120,8 +126,7 @@
                                                                 <label for="tanggal_sidang">Tanggal
                                                                     Sidang</label>
                                                                 <input type="date" class="form-control"
-                                                                    name="tanggal_sidang"
-                                                                    id="tanggal_sidang"
+                                                                    name="tanggal_sidang" id="tanggal_sidang"
                                                                     value="{{ old('tanggal_sidang', $mhs->tanggal_sidang) }}"
                                                                     required>
                                                             </div>
@@ -144,8 +149,8 @@
                                                             <!-- Dropdown Sesi -->
                                                             <div class="form-group mt-3">
                                                                 <label for="sesi_id">Sesi</label>
-                                                                <select class="form-control" name="sesi_id"
-                                                                    id="sesi_id" required>
+                                                                <select class="form-control" name="sesi_id" id="sesi_id"
+                                                                    required>
                                                                     <option value="">-- Pilih Sesi --</option>
                                                                     @foreach ($sesiList as $sesi)
                                                                         <option value="{{ $sesi->id_sesi }}"

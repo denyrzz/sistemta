@@ -41,7 +41,6 @@ class NilaiSidangPklController extends Controller
         return view('admin.dosen_nilai_pkl', compact('nilaiPkl', 'dosen', 'dosenList', 'sesiList', 'ruanganList'));
     }
 
-
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -57,9 +56,9 @@ class NilaiSidangPklController extends Controller
         $mhsPkl = MhsPkl::findOrFail($id);
 
         $status = null;
-        if ($mhsPkl->dosenpembimbing && $mhsPkl->dosenpembimbing->id == $dosen->id) {
+        if ($mhsPkl->dosen_pembimbing && $mhsPkl->dosen_pembimbing == $dosen->id_dosen) {
             $status = '0';
-        } elseif ($mhsPkl->dosenpenguji && $mhsPkl->dosenpenguji->id == $dosen->id) {
+        } elseif ($mhsPkl->dosen_penguji && $mhsPkl->dosen_penguji == $dosen->id_dosen) {
             $status = '1';
         }
 
@@ -82,7 +81,8 @@ class NilaiSidangPklController extends Controller
             ($request->penyajian * 0.2) +
             ($request->penguasaan * 0.2);
 
-        $nilaiSidangRecord = $mhsPkl->nilaisidangpkl ?? new NilaiSidangPkl();
+
+        $nilaiSidangRecord = new NilaiSidangPkl();
         $nilaiSidangRecord->pkl_id = $mhsPkl->id_pkl;
         $nilaiSidangRecord->bahasa = $request->bahasa;
         $nilaiSidangRecord->analisis = $request->analisis;
@@ -93,13 +93,15 @@ class NilaiSidangPklController extends Controller
         $nilaiSidangRecord->nilai_sidang = $nilaiSidang;
         $nilaiSidangRecord->status = $status;
 
+        // Simpan nilai sesuai dengan status (0 atau 1) tanpa menimpa nilai yang sudah ada
         $nilaiSidangRecord->save();
 
         return redirect()->back()->with('success', 'Penilaian berhasil disimpan!');
     }
+
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        //dd($request->all());
         $request->validate([
             'bahasa' => 'required|numeric|min:0|max:100',
             'analisis' => 'required|numeric|min:0|max:100',
