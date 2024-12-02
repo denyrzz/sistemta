@@ -148,7 +148,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('mhs/logbook', [MhsLogbookController::class, 'store'])->name('mhs_logbook.store');
     Route::get('/mhs/logbook/create', [MhsLogbookController::class, 'create'])->name('mhs_logbook.create');
 
-
     Route::get('dosenpembimbing', [DosenPembimbingController::class, 'index'])->name('dosen.pembimbing.index');
     Route::get('logbook/pkl/{mhs_pkl_id}', [DosenPembimbingController::class, 'showLogbook'])->name('dosen.pembimbing.showLogbook');
     Route::put('dosenpembimbing/{logbookId}/validasi', [DosenPembimbingController::class, 'updateValidasi'])->name('dosenpembimbing.updateValidasi');

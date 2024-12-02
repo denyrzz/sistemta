@@ -13,14 +13,19 @@ class SidangPklController extends Controller
 {
     public function index()
     {
-        $dosenList = Dosen::all();
-        $sesiList = Sesi::all();
-        $ruanganList = Ruangan::all();
         $mhsPkl = MhsPkl::where('verif_berkas', '1')
             ->with('mahasiswa', 'tempat', 'dosenpembimbing', 'dosenpenguji')
             ->get();
 
-        return view('admin.sidang_pkl', compact('mhsPkl','dosenList','sesiList','ruanganList'));
+        foreach ($mhsPkl as $mhs) {
+            $mhs->Dosen = Dosen::where('id_dosen', '!=', $mhs->dosen_pembimbing)->get();
+        }
+
+        $dosenList = Dosen::all();
+        $sesiList = Sesi::all();
+        $ruanganList = Ruangan::all();
+
+        return view('admin.sidang_pkl', compact('mhsPkl', 'dosenList', 'sesiList', 'ruanganList'));
     }
 
     public function update(Request $request, $id)
@@ -65,5 +70,4 @@ class SidangPklController extends Controller
 
         return $pdf->download('Surat_Tugas_' . $data['nama_mahasiswa'] . '.pdf');
     }
-
 }

@@ -71,13 +71,13 @@
                                 href="{{ route('usulan_pkl.index') }}"><i class="mdi mdi-map-marker"></i><span
                                     class="hide-menu">Usulan Tempat</span></a></li>
                         <li class="sidebar-item"><a
-                                class="sidebar-link {{ request()->is('mhs_pkl*') ? 'active' : '' }}"
-                                href="{{ route('mhs_pkl.index') }}"><i class="mdi mdi-account-circle"></i><span
-                                    class="hide-menu">Mahasiswa PKL</span></a></li>
-                        <li class="sidebar-item"><a
                                 class="sidebar-link {{ request()->is('mhs_logbook*') ? 'active' : '' }}"
                                 href="{{ route('mhs_logbook.index') }}"><i class="mdi mdi-book"></i><span
                                     class="hide-menu">Logbook PKL</span></a></li>
+                        <li class="sidebar-item"><a
+                                class="sidebar-link {{ request()->is('mhs_pkl*') ? 'active' : '' }}"
+                                href="{{ route('mhs_pkl.index') }}"><i class="mdi mdi-account-circle"></i><span
+                                    class="hide-menu">Berkas Sidang PKL</span></a></li>
                         <li class="sidebar-item"><a class="sidebar-link" href="#"><i
                                     class="mdi mdi-clipboard-check"></i><span class="hide-menu">Nilai PKL</span></a>
                         </li>
@@ -93,8 +93,7 @@
                         <i class="mdi mdi-school"></i>
                         <span class="hide-menu">PKL - Kaprodi</span>
                     </a>
-                    <ul class="collapse first-level {{ request()->is('') ? 'show' : '' }}"
-                        id="pklKaprodiMenu">
+                    <ul class="collapse first-level {{ request()->is('') ? 'show' : '' }}" id="pklKaprodiMenu">
                         <li class="sidebar-item"><a
                                 class="sidebar-link {{ request()->is('tempat_pkl*') ? 'active' : '' }}"
                                 href="{{ route('tempat_pkl.index') }}"><i class="mdi mdi-home-map-marker"></i><span

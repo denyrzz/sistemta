@@ -38,7 +38,6 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>Nama Mahasiswa</th>
-                                        <th>Judul PKL</th>
                                         <th>Dosen Pembimbing</th>
                                         <th>Dosen Penguji</th>
                                         <th>Tanggal Sidang</th>
@@ -52,7 +51,6 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $mhs->mahasiswa->nama }}</td>
-                                            <td>{{ $mhs->judul }}</td>
                                             <td>{{ $mhs->dosenpembimbing->nama_dosen }}</td>
                                             <td>
                                                 @if ($mhs->dosenpenguji && $mhs->dosenpenguji->nama_dosen)
@@ -67,14 +65,14 @@
                                                     ? ($mhs->ruangan->nama_ruangan && $mhs->ruangan->no_ruangan
                                                         ? $mhs->ruangan->nama_ruangan . ' - ' . $mhs->ruangan->no_ruangan
                                                         : '-')
-                                                    : 'N/A' }}
+                                                    : '-' }}
                                             </td>
                                             <td>{{ $mhs->sesi ? $mhs->sesi->jam : '-' }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-secondary btn-sm"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#sidangModal{{ $mhs->id_pkl }}">
-                                                    Edit
+                                                    Jadwalkan
                                                 </button>
                                                 <a href="{{ route('surat_tugas.generatePDF', ['id' => $mhs->id_pkl]) }}"
                                                     class="btn btn-primary text-white btn-sm">Surat Tugas</a>
@@ -88,7 +86,6 @@
                                             </td>
                                         </tr>
 
-                                        <!-- Modal for Assigning Dosen Pembimbing, Tanggal Sidang, and Sesi -->
                                         <div class="modal fade" id="sidangModal{{ $mhs->id_pkl }}" tabindex="-1"
                                             aria-labelledby="sidangModalLabel{{ $mhs->id_pkl }}" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -112,7 +109,7 @@
                                                                 <select class="form-control" name="dosen_penguji"
                                                                     id="dosen_penguji" required>
                                                                     <option value="">-- Pilih Dosen --</option>
-                                                                    @foreach ($dosenList as $dosen)
+                                                                    @foreach ($mhs->Dosen as $dosen)
                                                                         <option value="{{ $dosen->id_dosen }}"
                                                                             {{ old('dosen_penguji', $mhs->dosen_penguji) == $dosen->id_dosen ? 'selected' : '' }}>
                                                                             {{ $dosen->nama_dosen }}

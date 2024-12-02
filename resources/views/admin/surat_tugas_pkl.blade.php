@@ -119,14 +119,14 @@
                 <h1>JURUSAN TEKNOLOGI INFORMASI</h1>
                 <p>Kampus Politeknik Negeri Padang, Limau Manis, Padang, Sumatera Barat</p>
                 <p>Telepon: (0751) 72590, Faks: (0751) 72576</p>
-                <p>Laman: https://elektro.pnp.ac.id | Surel: elektro@pnp.ac.id</p>
+                <p>Laman: https://ti.pnp.ac.id | Surel: ti@pnp.ac.id</p>
             </td>
         </tr>
     </table>
 
     <hr style="border: 1px solid black;">
     <h2>SURAT TUGAS</h2>
-    <p style="text-align: center;">Nomor: 772/PL9.5/PT/2024</p>
+    <p style="text-align: center;">Nomor: 772/PL9.5/PKL/{{ now()->format('Y') }}</p>
 
     <p>Yang bertanda tangan di bawah ini Ketua Program Studi Teknologi Rekayasa Perangkat Lunak menugaskan kepada:</p>
     <table>
@@ -180,7 +180,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ $tanggal_sidang ?? 'N/A' }}</td>
+                <td>{{ $tanggal_sidang ? \Carbon\Carbon::parse($tanggal_sidang)->format('d F Y') : 'N/A' }}</td>
                 <td>{{ $sesi ?? 'N/A' }}</td>
                 <td>{{ $ruangan && $no_ruangan ? $ruangan . ' - ' . $no_ruangan : 'N/A' }}</td>
             </tr>
