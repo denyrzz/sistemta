@@ -10,6 +10,7 @@ class Pimpinan extends Model
     use HasFactory;
 
     protected $table = 'pimpinan';
+    protected $primaryKey = 'id_jabatan';
 
     public $timestamps = false;
 

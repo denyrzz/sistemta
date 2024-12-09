@@ -24,9 +24,10 @@ class PimpinanController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'dosen_id' => 'required|exists:dosen,id_dosen',
-            'jabatan_id' => 'required|exists:jabatan_pimpinan,id_jabatan',
+            'dosen_id' => 'required|integer|exists:dosen,id_dosen',
+            'jabatan_id' => 'required|integer|exists:jabatan_pimpinan,id_jabatan',
             'periode' => 'required|string|max:255',
             'status_pimpinan' => 'required|in:0,1',
         ]);

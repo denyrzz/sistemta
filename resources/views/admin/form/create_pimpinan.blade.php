@@ -1,49 +1,54 @@
 @extends('layouts.admin.template')
-
 @section('content')
 <div class="container-fluid">
-    <h2 class="fw-semibold mb-4">Tambah Logbook</h2>
+    <h2 class="fw-semibold mb-4">Tambah Pimpinan</h2>
 
-    <!-- Logbook Creation Form -->
-    <form action="{{ route('mhs_logbook.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('pimpinan.store') }}" method="POST">
         @csrf
-        <input type="hidden" name="pkl_id" value="{{ $pklId }}">
 
         <div class="mb-3">
-            <label for="tgl_awal" class="form-label">Tanggal Awal</label>
-            <input type="date" name="tgl_awal" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="tgl_akhir" class="form-label">Tanggal Akhir</label>
-            <input type="date" name="tgl_akhir" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="kegiatan" class="form-label">Kegiatan</label>
-            <textarea name="kegiatan" class="form-control" rows="4" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="dokumentasi" class="form-label">Dokumentasi (Opsional)</label>
-            <input type="file" name="dokumentasi" class="form-control-file">
-        </div>
-
-        <div class="mb-3">
-            <label for="komentar" class="form-label">Komentar</label>
-            <textarea name="komentar" class="form-control" rows="4" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="validasi" class="form-label">Validasi</label>
-            <select name="validasi" class="form-select" required>
-                <option value="0">Belum Validasi</option>
-                <option value="1">Tervalidasi</option>
+            <label for="dosen_id" id="dosen_id" class="form-label">Dosen</label>
+            <select name="dosen_id" class="form-select" required>
+                <option value="" selected disabled>Pilih Dosen</option>
+                @foreach ($dosens as $d)
+                    <option value="{{ $d->id_dosen }}">{{ $d->nama_dosen }}</option>
+                @endforeach
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="jabatan_id" class="form-label">Jabatan</label>
+            <select name="jabatan_id" class="form-select" required>
+                <option value="" selected disabled>Pilih Jabatan</option>
+                @foreach ($jabatanPimpinans as $j)
+                    <option value="{{ $j->id_jabatan }}">{{ $j->jabatan_pimpinan }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="periode" class="form-label">Periode</label>
+            <input type="text" name="periode" class="form-control" value="{{ old('periode') }}" placeholder="Periode" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="statusAktif" value="1"
+                        {{ old('status') == '1' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="statusAktif">Aktif</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="status_pimpinan" id="statusTidakAktif" value="0"
+                        {{ old('status') == '0' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="statusTidakAktif">Tidak Aktif</label>
+                </div>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Tambah</button>
-        <a href="{{ route('mhs_logbook.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('pimpinan.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

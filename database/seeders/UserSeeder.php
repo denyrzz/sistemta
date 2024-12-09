@@ -7,30 +7,25 @@ use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\MhsPkl;
 use App\Models\Pimpinan;
-use App\Models\UsulanPkl;
-use App\Models\RegisterPkl;
-use App\Models\PimpinanProdi;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class UserRoleSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $superAdminRole = Role::create(['name' => 'superAdmin']);
+        $superAdminRole = Role::create(['name' => 'super-admin']);
         $adminRole = Role::create(['name' => 'admin']);
-
-        $kaprodiRole = Role::create(['name' => 'kaprodi']);
+        $kaprodiRole = Role::firstOrCreate(['name' => 'kaprodi']);
         $mahasiswaRole = Role::firstOrCreate(['name' => 'mahasiswa']);
         $dosenRole = Role::firstOrCreate(['name' => 'dosen']);
-
-        $pembimbingPklRole = Role::firstOrCreate(['name' => 'pembimbingPkl']);
-        $pengujiPklRole = Role::firstOrCreate(['name' => 'pengujiPkl']);
+        $pembimbingPklRole = Role::firstOrCreate(['name' => 'pembimbing-pkl']);
+        $pengujiPklRole = Role::firstOrCreate(['name' => 'penguji-pkl']);
 
         $adminUser = User::create([
             'name' => 'Admin User',
@@ -48,10 +43,9 @@ class UserRoleSeeder extends Seeder
 
         $mahasiswas = Mahasiswa::all();
         $dosens = Dosen::all();
-        $mahasiswaPklIds = UsulanPkl::pluck('mahasiswa_id')->toArray();
-        $pembimbingPklIds = MhsPkl::pluck('pembimbing_id')->toArray();
-        $pengujiPklIds = MhsPkl::pluck('penguji_id')->toArray();
-        $kaprodiIds = Pimpinan::pluck('dosen_id')->toArray();
+        $pembimbingPklIds = MhsPkl::pluck('dosen_pembimbing')->toArray();
+        $pengujiPklIds = MhsPkl::pluck('dosen_penguji')->toArray();
+        $kaprodiIds = Pimpinan::where('jabatan_id', 3)->pluck('dosen_id')->toArray();
 
         foreach ($dosens as $dosen) {
             $existingUser = User::where('email', $dosen->email)->first();
