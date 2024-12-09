@@ -52,6 +52,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('permissions', App\Http\Controllers\PermissionController::class);
+Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
+
+Route::resource('roles', App\Http\Controllers\RoleController::class);
+Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
+
+Route::resource('users', App\Http\Controllers\UserController::class)->except(['show']);
+Route::get('users/createMhs', [App\Http\Controllers\UserController::class, 'createMhs'])->name('users.createMhs');;
+Route::post('users/storeMhs', [App\Http\Controllers\UserController::class, 'storeMhs'])->name('users.storeMhs');
+Route::get('users/createDsn', [App\Http\Controllers\UserController::class, 'createDsn'])->name('users.createDsn');;
+Route::post('users/storeDsn', [App\Http\Controllers\UserController::class, 'storeDsn'])->name('users.storeDsn');;
+
+
 Route::middleware(['auth'])->group(function () {
     // Jurusan Routes
     Route::get('/jurusan', [JurusanController::class, 'index'])->name('jurusan.index');

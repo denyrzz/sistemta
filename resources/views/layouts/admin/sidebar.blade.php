@@ -62,7 +62,7 @@
                         aria-expanded="{{ request()->is('tempat_pkl*', 'usulan_pkl*', 'mhs_pkl*', 'mhs_logbook*') ? 'true' : 'false' }}"
                         aria-controls="pklMahasiswaMenu">
                         <i class="mdi mdi-school"></i>
-                        <span class="hide-menu">PKL Mahasiswa</span>
+                        <span class="hide-menu">PKL - Mahasiswa</span>
                     </a>
                     <ul class="collapse first-level {{ request()->is('tempat_pkl*', 'usulan_pkl*', 'mhs_pkl*', 'mhs_logbook*') ? 'show' : '' }}"
                         id="pklMahasiswaMenu">

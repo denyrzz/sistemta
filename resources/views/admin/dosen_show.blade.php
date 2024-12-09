@@ -46,7 +46,7 @@
                         <div class="form-group row mb-3">
                             <label class="col-sm-4 col-form-label">Gender</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label">: {{ $data_dosen->jenis_kelamin == 'L' ? 'Laki-Laki' : 'Perempuan' }}</label>
+                                <label class="col-form-label">: {{ $data_dosen->jenis_kelamin == 'Laki-Laki' ? 'Laki-Laki' : 'Perempuan' }}</label>
                             </div>
                         </div>
 
