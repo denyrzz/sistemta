@@ -34,11 +34,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Daftar Sidang PKL</h4>
+                            <h4 class="card-title">Daftar Sidang PKL (Pembimbing)</h4>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="dosenTable" width="100%"
-                                cellspacing="0">
+                            <table class="table table-bordered table-striped" id="dosenTablePembimbing" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>NO</th>
@@ -52,196 +51,80 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($nilaiPkl as $index => $mhsPkl)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $mhsPkl->mahasiswa->nama }}</td>
-                                            <td>{{ $mhsPkl->tanggal_sidang }}</td>
-                                            <td>{{ $mhsPkl->ruangan->nama_ruangan }}</td>
-                                            <td>{{ $mhsPkl->sesi->sesi }}</td>
-                                            <td>
-                                                @if (auth()->user()->dosen->id_dosen == $mhsPkl->dosen_pembimbing && $mhsPkl->nilaiPembimbing)
+                                        @if ($mhsPkl->dosen_pembimbing && auth()->user()->dosen->id_dosen == $mhsPkl->dosen_pembimbing)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $mhsPkl->mahasiswa->nama }}</td>
+                                                <td>{{ $mhsPkl->tanggal_sidang }}</td>
+                                                <td>{{ $mhsPkl->ruangan->nama_ruangan }}</td>
+                                                <td>{{ $mhsPkl->sesi->sesi }}</td>
+                                                <td>
                                                     {{ $mhsPkl->nilaiPembimbing->nilai_sidang ?? '-' }}
-                                                @elseif (auth()->user()->dosen->id_dosen == $mhsPkl->dosen_penguji && $mhsPkl->nilaiPenguji)
+                                                </td>
+                                                <td>
+                                                    @if ($mhsPkl->nilaiPembimbing)
+                                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $mhsPkl->id_pkl }}">
+                                                            <i class="bi bi-pencil-square"></i> Edit
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#penilaianModal{{ $mhsPkl->id_pkl }}">
+                                                            <i class="bi bi-pencil-square"></i> Penilaian
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Table for Penguji (Examiner) -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title">Daftar Sidang PKL (Penguji)</h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="dosenTablePenguji" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Nama Mahasiswa</th>
+                                        <th>Tanggal</th>
+                                        <th>Ruangan</th>
+                                        <th>Sesi</th>
+                                        <th>Nilai Sidang</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($nilaiPkl as $index => $mhsPkl)
+                                        @if ($mhsPkl->dosen_penguji && auth()->user()->dosen->id_dosen == $mhsPkl->dosen_penguji)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $mhsPkl->mahasiswa->nama }}</td>
+                                                <td>{{ $mhsPkl->tanggal_sidang }}</td>
+                                                <td>{{ $mhsPkl->ruangan->nama_ruangan }}</td>
+                                                <td>{{ $mhsPkl->sesi->sesi }}</td>
+                                                <td>
                                                     {{ $mhsPkl->nilaiPenguji->nilai_sidang ?? '-' }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (
-                                                    ($mhsPkl->nilaiPembimbing && auth()->user()->dosen->id_dosen == $mhsPkl->dosen_pembimbing) ||
-                                                        ($mhsPkl->nilaiPenguji && auth()->user()->dosen->id_dosen == $mhsPkl->dosen_penguji))
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#editModal{{ $mhsPkl->id_pkl }}">
-                                                        <i class="bi bi-pencil-square"></i> Edit
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-sm btn-warning"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#penilaianModal{{ $mhsPkl->id_pkl }}">
-                                                        <i class="bi bi-pencil-square"></i> Penilaian
-                                                    </button>
-                                                @endif
-                                            </td>
-                                        </tr>
-
-                                        <!-- Penilaian Modal -->
-                                        <div class="modal fade" id="penilaianModal{{ $mhsPkl->id_pkl }}" tabindex="-1"
-                                            aria-labelledby="penilaianModalLabel{{ $mhsPkl->id_pkl }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Penilaian Sidang PKL</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <form action="{{ route('nilai_sidang_pkl.store', $mhsPkl->id_pkl) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label for="bahasa{{ $mhsPkl->id_pkl }}">Bahasa
-                                                                    (15%)
-                                                                </label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="bahasa" id="bahasa{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('bahasa') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="analisis{{ $mhsPkl->id_pkl }}">Analisis
-                                                                    (20%)</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="analisis" id="analisis{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('analisis') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="sikap{{ $mhsPkl->id_pkl }}">Sikap (10%)</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="sikap" id="sikap{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('sikap') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="komunikasi{{ $mhsPkl->id_pkl }}">Komunikasi
-                                                                    (15%)</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="komunikasi" id="komunikasi{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('komunikasi') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="penyajian{{ $mhsPkl->id_pkl }}">Penyajian
-                                                                    (20%)</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="penyajian" id="penyajian{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('penyajian') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="penguasaan{{ $mhsPkl->id_pkl }}">Penguasaan
-                                                                    Materi (20%)</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="penguasaan" id="penguasaan{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('penguasaan') }}" required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="nilai_sidang{{ $mhsPkl->id_pkl }}">Nilai Total
-                                                                    Sidang</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="nilai_sidang"
-                                                                    id="nilai_sidang{{ $mhsPkl->id_pkl }}" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Edit Modal -->
-                                        <div class="modal fade" id="editModal{{ $mhsPkl->id_pkl }}" tabindex="-1"
-                                            aria-labelledby="editModalLabel{{ $mhsPkl->id_pkl }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Edit Nilai Sidang PKL</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <form action="{{ route('nilai_sidang_pkl.update', $mhsPkl->id_pkl) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label for="bahasa{{ $mhsPkl->id_pkl }}">Bahasa</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="bahasa" id="bahasa{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('bahasa', $mhsPkl->nilaiPembimbing->bahasa ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="analisis{{ $mhsPkl->id_pkl }}">Analisis</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="analisis" id="analisis{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('analisis', $mhsPkl->nilaiPembimbing->analisis ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="sikap{{ $mhsPkl->id_pkl }}">Sikap</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="sikap" id="sikap{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('sikap', $mhsPkl->nilaiPembimbing->sikap ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="komunikasi{{ $mhsPkl->id_pkl }}">Komunikasi</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="komunikasi"
-                                                                    id="komunikasi{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('komunikasi', $mhsPkl->nilaiPembimbing->komunikasi ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label
-                                                                    for="penyajian{{ $mhsPkl->id_pkl }}">Penyajian</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="penyajian" id="penyajian{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('penyajian', $mhsPkl->nilaiPembimbing->penyajian ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="penguasaan{{ $mhsPkl->id_pkl }}">Penguasaan
-                                                                    Materi</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="penguasaan"
-                                                                    id="penguasaan{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('penguasaan', $mhsPkl->nilaiPembimbing->penguasaan ?? '') }}"
-                                                                    required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="nilai_sidang{{ $mhsPkl->id_pkl }}">Nilai Total
-                                                                    Sidang</label>
-                                                                <input type="number" step="0.01" class="form-control"
-                                                                    name="nilai_sidang"
-                                                                    id="nilai_sidang{{ $mhsPkl->id_pkl }}"
-                                                                    value="{{ old('nilai_sidang', $mhsPkl->nilaiPembimbing->nilai_sidang ?? '') }}"
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                </td>
+                                                <td>
+                                                    @if ($mhsPkl->nilaiPenguji)
+                                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $mhsPkl->id_pkl }}">
+                                                            <i class="bi bi-pencil-square"></i> Edit
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#penilaianModal{{ $mhsPkl->id_pkl }}">
+                                                            <i class="bi bi-pencil-square"></i> Penilaian
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -251,6 +134,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Add your modal content here as before (same modals for penilaian and edit, just make sure IDs are unique) -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

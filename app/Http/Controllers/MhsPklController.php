@@ -41,7 +41,6 @@ class MhsPklController extends Controller
             'nilai_pembimbing_industri' => 'nullable|numeric',
             'dokument_nilai_industri' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
             'dokument_pkl' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
-            'dokument_pkl_revisi' => 'nullable|file|mimes:pdf,doc,docx,jpg,png',
         ]);
 
         if ($validator->fails()) {
@@ -68,13 +67,6 @@ class MhsPklController extends Controller
             $filename = time() . '_' . $request->file('dokument_pkl')->getClientOriginalName();
             $request->file('dokument_pkl')->storeAs('public/uploads/mahasiswa/dokument_pkl', $filename);
             $data['dokument_pkl'] = $filename;
-        }
-
-        if ($request->hasFile('dokument_pkl_revisi')) {
-            Storage::delete('public/uploads/mahasiswa/dokument_pkl_revisi/' . $oldData->dokument_pkl_revisi);
-            $filename = time() . '_' . $request->file('dokument_pkl_revisi')->getClientOriginalName();
-            $request->file('dokument_pkl_revisi')->storeAs('public/uploads/mahasiswa/dokument_pkl_revisi', $filename);
-            $data['dokument_pkl_revisi'] = $filename;
         }
 
         $oldData->update($data);

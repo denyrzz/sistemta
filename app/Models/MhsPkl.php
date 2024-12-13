@@ -28,11 +28,30 @@ class MhsPkl extends Model
         'nilai_bimbingan',
         'judul',
         'dokument_pkl',
-        'dokument_pkl_revisi',
         'dosen_penguji',
         'tanggal_sidang',
+        'nilai_mahasiswa',
         'verif_berkas',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        MhsPkl::all()->each(function ($sidangPkl) {
+            $nilaiPembimbing = $sidangPkl->nilaiPembimbing->nilai_sidang ?? null;
+            $nilaiPenguji = $sidangPkl->nilaiPenguji->nilai_sidang ?? null;
+            $nilaiIndustri = $sidangPkl->nilai_pembimbing_industri ?? null;
+
+            if ($nilaiPembimbing !== null && $nilaiPenguji !== null && $nilaiIndustri !== null) {
+                $nilaimahasiswa = ($nilaiPembimbing * 0.35) + ($nilaiPenguji * 0.35) + ($nilaiIndustri * 0.3);
+
+                $sidangPkl->nilai_mahasiswa = $nilaimahasiswa;
+
+                $sidangPkl->save();
+            } else {
+            }
+        });
+    }
 
     public function mahasiswa()
     {
@@ -88,4 +107,5 @@ class MhsPkl extends Model
     {
         return $this->hasOne(NilaiSidangPkl::class, 'pkl_id');
     }
+
 }

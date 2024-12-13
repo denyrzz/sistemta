@@ -63,11 +63,13 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
-                                            <td>{{ $data->roles }}</td>
                                             <td>
-                                                <a href="{{ url('users/'.$data->id.'/edit') }}"
+                                                {{ $data->roles->pluck('name')->join(', ') }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ url('users/' . $data->id . '/edit') }}"
                                                     class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="{{ url('users/'.$data->id.'/delete') }}"
+                                                <a href="{{ url('users/' . $data->id . '/delete') }}"
                                                     class="btn btn-danger btn-sm">Delete</a>
                                                 </form>
                                             </td>

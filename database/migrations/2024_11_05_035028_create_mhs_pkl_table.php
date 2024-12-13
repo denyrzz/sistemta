@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('dokument_nilai_industri')->nullable();
             $table->text('judul')->nullable();
             $table->string('dokument_pkl')->nullable();
-            $table->string('dokument_pkl_revisi')->nullable();
             $table->date('tanggal_sidang')->nullable();
+            $table->double('nilai_mahasiswa', 8, 2)->nullable();
             $table->enum('verif_berkas', ['0', '1'])->default('0')->comment('0: Belum, 1: Sudah')->nullable();
 
 

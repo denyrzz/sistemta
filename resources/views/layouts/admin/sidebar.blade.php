@@ -62,7 +62,7 @@
                             aria-expanded="{{ request()->is('tempat_pkl*', 'usulan_pkl*', 'mhs_pkl*', 'mhs_logbook*') ? 'true' : 'false' }}"
                             aria-controls="pklMahasiswaMenu">
                             <i class="mdi mdi-school"></i>
-                            <span class="hide-menu">PKL - Mahasiswa</span>
+                            <span class="hide-menu">PKL</span>
                         </a>
                         <ul class="collapse first-level {{ request()->is('tempat_pkl*', 'usulan_pkl*', 'mhs_pkl*', 'mhs_logbook*') ? 'show' : '' }}"
                             id="pklMahasiswaMenu">
@@ -77,7 +77,7 @@
                             <li class="sidebar-item"><a
                                     class="sidebar-link {{ request()->is('mhs_pkl*') ? 'active' : '' }}"
                                     href="{{ route('mhs_pkl.index') }}"><i class="mdi mdi-account-circle"></i><span
-                                        class="hide-menu">Berkas Sidang PKL</span></a></li>
+                                        class="hide-menu">Sidang PKL</span></a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="#"><i
                                         class="mdi mdi-clipboard-check"></i><span class="hide-menu">Nilai PKL</span></a>
                             </li>
@@ -119,7 +119,7 @@
                             data-bs-toggle="collapse" href="#pklPembimbingMenu"
                             aria-expanded="{{ request()->is('') ? 'true' : 'false' }}" aria-controls="pklPembimbingMenu">
                             <i class="mdi mdi-school"></i>
-                            <span class="hide-menu">PKL - Pembimbing</span>
+                            <span class="hide-menu">Pembimbing</span>
                         </a>
                         <ul class="collapse first-level {{ request()->is('') ? 'show' : '' }}" id="pklPembimbingMenu">
                             <li class="sidebar-item">
@@ -153,12 +153,9 @@
                                     <i class="mdi mdi-map"></i><span class="hide-menu">Verifikasi Berkas</span>
                                 </a>
                             </li>
+                        </ul>
                     </li>
                 @endhasrole
-            </ul>
-
-            <ul id="sidebarnav">
-                <!-- Data Sempro Menu -->
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark {{ request()->is('sempro*') ? 'active' : '' }}"
                         data-bs-toggle="collapse" href="#semproMenu"
@@ -174,6 +171,7 @@
                     </ul>
                 </li>
             </ul>
+
         </nav>
     </div>
 </aside>

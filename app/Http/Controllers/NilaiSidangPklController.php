@@ -26,6 +26,7 @@ class NilaiSidangPklController extends Controller
 
     public function index()
     {
+
         $dosen = auth()->user()->dosen;
 
         $mhsDibimbing = $dosen->mhsPkl()->with('mahasiswa', 'tempat', 'dosenpembimbing', 'dosenpenguji')->get();
