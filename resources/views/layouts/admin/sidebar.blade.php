@@ -156,20 +156,24 @@
                         </ul>
                     </li>
                 @endhasrole
+                @hasrole('mahasiswa')
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark {{ request()->is('sempro*') ? 'active' : '' }}"
                         data-bs-toggle="collapse" href="#semproMenu"
                         aria-expanded="{{ request()->is('sempro*') ? 'true' : 'false' }}" aria-controls="semproMenu">
                         <i class="mdi mdi-book-open-variant"></i>
-                        <span class="hide-menu">Data Sempro</span>
+                        <span class="hide-menu">Sempro</span>
                     </a>
-                    <ul class="collapse first-level {{ request()->is('sempro*') ? 'show' : '' }}" id="semproMenu">
-                        <li class="sidebar-item"><a
-                                class="sidebar-link {{ request()->is('sempro/verifikasi') ? 'active' : '' }}"
-                                href="#"><i class="mdi mdi-check-circle"></i><span
-                                    class="hide-menu">Verifikasi</span></a></li>
+                    <ul class="collapse first-level {{ request()->is('') ? 'show' : '' }}" id="sempromhsMenu">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ request()->routeIs('mhs_sempro.index') ? 'active' : '' }}"
+                                href="{{ route('mhs_sempro.index') }}">
+                                <i class="mdi mdi-map"></i><span class="hide-menu">Sempro</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
+                @endhasrole
             </ul>
 
         </nav>

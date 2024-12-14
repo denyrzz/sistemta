@@ -19,11 +19,12 @@ use App\Http\Controllers\SidangPklController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\UsulanPklController;
 use App\Http\Controllers\MhsLogbookController;
-use App\Http\Controllers\PengajuanPKLController;
 use App\Http\Controllers\VerifikasiPKLController;
 use App\Http\Controllers\NilaiSidangPklController;
 use App\Http\Controllers\DosenPembimbingController;
 use App\Http\Controllers\JabatanPimpinanController;
+use App\Http\Controllers\MhsSemproController;
+use App\Models\MhsSempro;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,10 +176,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/sidang_pkl/update/{id_pkl}', [SidangPklController::class, 'update'])->name('sidang_pkl.update');
     Route::get('/surat_tugas/{id}', [SidangPklController::class, 'generatePDF'])->name('surat_tugas.generatePDF');
 
-
     Route::get('/nilai_sidang_pkl', [NilaiSidangPklController::class, 'index'])->name('nilai_sidang_pkl.index');
     Route::put('/nilai_sidang_pkl/update/{id_pkl}', [NilaiSidangPklController::class, 'update'])->name('nilai_sidang_pkl.update');
     Route::post('/nilai-sidang-pkl/{id}', [NilaiSidangPklController::class, 'store'])->name('nilai_sidang_pkl.store');
 
+    Route::get('/mhs_sempro', [MhsSemproController::class, 'index'])->name('mhs_sempro.index');
+    Route::post('/mhs_sempro/store', [MhsSemproController::class, 'store'])->name('mhs_sempro.store');
+    Route::put('/mhs_sempro/update/{id}', [MhsSemproController::class, 'update'])->name('mhs_sempro.update');
+    Route::get('/mhs_sempro/edit/{id}', [MhsSemproController::class, 'edit'])->name('mhs_sempro.edit');
 });
 require __DIR__ . '/auth.php';

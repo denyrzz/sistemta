@@ -148,6 +148,10 @@
                                         <td><strong>Sesi-Jam</strong></td>
                                         <td>: {{ $data_pkl->sesi->sesi }} - {{ $data_pkl->sesi->jam }}</td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>Nilai Sidang</strong></td>
+                                        <td>: {{ $data_pkl->nilai_mahasiswa ?? 'N/A' }} </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
