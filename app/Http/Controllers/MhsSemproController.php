@@ -42,4 +42,39 @@ class MhsSemproController extends Controller
 
         return redirect()->route('mhs_sempro.index')->with('success', 'Sempro judul submitted successfully.');
     }
+
+    public function destroy($id)
+    {
+        // Temukan data berdasarkan ID
+        $sempro = MhsSempro::findOrFail($id);
+
+        // Hapus file dari storage jika ada
+        if (!empty($sempro->file_sempro)) {
+            $filePath = 'public/uploads/mahasiswa/sempro/' . $sempro->file_sempro;
+            if (Storage::exists($filePath)) {
+                Storage::delete($filePath);
+            }
+        }
+
+        // Hapus data dari database
+        $sempro->delete();
+
+        // Redirect ke halaman sebelumnya dengan pesan sukses
+        return redirect()->route('mhs_sempro.index')->with('success', 'Data Sempro berhasil dihapus.');
+    }
+    public function verify($id)
+    {
+        // Cari data berdasarkan ID
+        $sempro = MhsSempro::find($id);
+
+        if (!$sempro) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
+
+        // Ubah status menjadi 1
+        $sempro->status = '1';
+        $sempro->save();
+
+        return redirect()->back()->with('success', 'Data berhasil diverifikasi.');
+    }
 }

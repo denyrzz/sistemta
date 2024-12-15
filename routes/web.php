@@ -23,6 +23,7 @@ use App\Http\Controllers\VerifikasiPKLController;
 use App\Http\Controllers\NilaiSidangPklController;
 use App\Http\Controllers\DosenPembimbingController;
 use App\Http\Controllers\JabatanPimpinanController;
+use App\Http\Controllers\KaprodiSemproController;
 use App\Http\Controllers\MhsSemproController;
 use App\Models\MhsSempro;
 
@@ -184,5 +185,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mhs_sempro/store', [MhsSemproController::class, 'store'])->name('mhs_sempro.store');
     Route::put('/mhs_sempro/update/{id}', [MhsSemproController::class, 'update'])->name('mhs_sempro.update');
     Route::get('/mhs_sempro/edit/{id}', [MhsSemproController::class, 'edit'])->name('mhs_sempro.edit');
+    Route::delete('/mhs_sempro/{id}', [MhsSemproController::class, 'destroy'])->name('mhs_sempro.destroy');
+
+    Route::get('/kaprodi_sempro', [KaprodiSemproController::class, 'index'])->name('kaprodi_sempro.index');
+    Route::put('/kaprodi_sempro/{id}/verify', [KaprodiSemproController::class, 'verify'])->name('kaprodi_sempro.verify');
+    Route::put('/kaprodi/sempro/add-dosen/{id}', [KaprodiSemproController::class, 'addDosen'])->name('kaprodi_sempro.add_dosen');
+
 });
 require __DIR__ . '/auth.php';

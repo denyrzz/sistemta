@@ -168,7 +168,25 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link {{ request()->routeIs('mhs_sempro.index') ? 'active' : '' }}"
                                 href="{{ route('mhs_sempro.index') }}">
-                                <i class="mdi mdi-map"></i><span class="hide-menu">Sempro</span>
+                                <i class="mdi mdi-map"></i><span class="hide-menu">Ajukan Sempro</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endhasrole
+                @hasrole('dosen')
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow waves-effect waves-dark {{ request()->is('sempro*') ? 'active' : '' }}"
+                        data-bs-toggle="collapse" href="#semproMenu"
+                        aria-expanded="{{ request()->is('sempro*') ? 'true' : 'false' }}" aria-controls="semproMenu">
+                        <i class="mdi mdi-book-open-variant"></i>
+                        <span class="hide-menu">Sempro</span>
+                    </a>
+                    <ul class="collapse first-level {{ request()->is('') ? 'show' : '' }}" id="sempromhsMenu">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link {{ request()->routeIs('kaprodi_sempro.index') ? 'active' : '' }}"
+                                href="{{ route('kaprodi_sempro.index') }}">
+                                <i class="mdi mdi-map"></i><span class="hide-menu">Verifikasi Sempro</span>
                             </a>
                         </li>
                     </ul>
