@@ -68,6 +68,6 @@ class SidangPklController extends Controller
 
         $pdf = PDF::loadView('admin.surat_tugas_pkl', $data);
 
-        return $pdf->download('Surat_Tugas_' . $data['nama_mahasiswa'] . '.pdf');
+        return $pdf->download('Surat_Tugas_pkl_' . $data['nama_mahasiswa'] . '.pdf');
     }
 }

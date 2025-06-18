@@ -24,8 +24,8 @@ class UserSeeder extends Seeder
         $kaprodiRole = Role::firstOrCreate(['name' => 'kaprodi']);
         $mahasiswaRole = Role::firstOrCreate(['name' => 'mahasiswa']);
         $dosenRole = Role::firstOrCreate(['name' => 'dosen']);
-        $pembimbingPklRole = Role::firstOrCreate(['name' => 'pembimbing-pkl']);
-        $pengujiPklRole = Role::firstOrCreate(['name' => 'penguji-pkl']);
+        $pembimbingRole = Role::firstOrCreate(['name' => 'pembimbing']);
+        $pengujiRole = Role::firstOrCreate(['name' => 'penguji']);
 
         $adminUser = User::create([
             'name' => 'Admin User',
@@ -43,8 +43,8 @@ class UserSeeder extends Seeder
 
         $mahasiswas = Mahasiswa::all();
         $dosens = Dosen::all();
-        $pembimbingPklIds = MhsPkl::pluck('dosen_pembimbing')->toArray();
-        $pengujiPklIds = MhsPkl::pluck('dosen_penguji')->toArray();
+        $pembimbingIds = MhsPkl::pluck('dosen_pembimbing')->toArray();
+        $pengujiIds = MhsPkl::pluck('dosen_penguji')->toArray();
         $kaprodiIds = Pimpinan::where('jabatan_id', 3)->pluck('dosen_id')->toArray();
 
         foreach ($dosens as $dosen) {
@@ -53,12 +53,12 @@ class UserSeeder extends Seeder
             if ($existingUser) {
                 $existingUser->assignRole($dosenRole);
 
-                if (in_array($dosen->id_dosen, $pembimbingPklIds)) {
-                    $existingUser->assignRole($pembimbingPklRole);
+                if (in_array($dosen->id_dosen, $pembimbingIds)) {
+                    $existingUser->assignRole($pembimbingRole);
                 }
 
-                if (in_array($dosen->id_dosen, $pengujiPklIds)) {
-                    $existingUser->assignRole($pengujiPklRole);
+                if (in_array($dosen->id_dosen, $pengujiIds)) {
+                    $existingUser->assignRole($pengujiRole);
                 }
 
                 if (in_array($dosen->id_dosen, $kaprodiIds)) {
@@ -73,12 +73,12 @@ class UserSeeder extends Seeder
 
                 $user->assignRole($dosenRole);
 
-                if (in_array($dosen->id_dosen, $pembimbingPklIds)) {
-                    $user->assignRole($pembimbingPklRole);
+                if (in_array($dosen->id_dosen, $pembimbingIds)) {
+                    $user->assignRole($pembimbingRole);
                 }
 
-                if (in_array($dosen->id_dosen, $pengujiPklIds)) {
-                    $user->assignRole($pengujiPklRole);
+                if (in_array($dosen->id_dosen, $pengujiIds)) {
+                    $user->assignRole($pengujiRole);
                 }
 
                 if (in_array($dosen->id_dosen, $kaprodiIds)) {

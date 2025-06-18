@@ -22,13 +22,8 @@
             <textarea name="kegiatan" class="form-control"></textarea>
         </div>
         <div class="form-group">
-            <label for="dokumentasi">Dokumentasi (Opsional)</label>
+            <label for="dokumentasi">Dokumentasi</label>
             <input type="file" name="dokumentasi" class="form-control-file">
-        </div>
-
-        <div class="form-group">
-            <label for="komentar">Komentar</label>
-            <textarea name="komentar" class="form-control" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Tambah</button>
     </form>

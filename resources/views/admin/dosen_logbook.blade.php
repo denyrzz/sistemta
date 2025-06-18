@@ -34,8 +34,7 @@
                             <h4 class="card-title">Logbook PKL Mahasiswa: {{ $mhsPkl->mahasiswa->nama }}</h4>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="logbookTable" width="100%"
-                                cellspacing="0">
+                            <table class="table table-bordered table-striped" id="logbookTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -56,8 +55,7 @@
                                             <td>{{ $logbookEntry->tgl_akhir }}</td>
                                             <td>{{ $logbookEntry->kegiatan }}</td>
                                             <td>
-                                                <a href="{{ asset('storage/uploads/mahasiswa/dokumentasi/' . $logbookEntry->dokumentasi) }}"
-                                                    target="_blank">Dokumentasi</a>
+                                                <a href="{{ asset('storage/uploads/mahasiswa/dokumentasi/' . $logbookEntry->dokumentasi) }}" target="_blank">Dokumentasi</a>
                                             </td>
                                             <td>{{ $logbookEntry->komentar }}</td>
                                             <td>
@@ -66,14 +64,12 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <form
-                                                    action="{{ route('dosenpembimbing.updateValidasi', $logbookEntry->id_logbook) }}"
-                                                    method="POST">
+                                                <form action="{{ route('dosenpembimbing.updateValidasi', $logbookEntry->id_logbook) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-primary">
-                                                        Validasi
-                                                    </button>
+                                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#komentarModal{{ $logbookEntry->id_logbook }}">
+                                                            Validasi
+                                                        </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -86,4 +82,31 @@
             </div>
         </div>
     </div>
+
+    @foreach ($mhsPkl->logbook as $logbookEntry)
+        <div class="modal fade" id="komentarModal{{ $logbookEntry->id_logbook }}" tabindex="-1" aria-labelledby="komentarModalLabel{{ $logbookEntry->id_logbook }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="komentarModalLabel{{ $logbookEntry->id_logbook }}">Tambah Komentar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('dosenpembimbing.updateValidasi', $logbookEntry->id_logbook) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="komentar">Komentar</label>
+                                <textarea name="komentar" class="form-control" required>{{ $logbookEntry->komentar }}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan Komentar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

@@ -1,39 +1,27 @@
-/*
-Template Name: Admin Pro Admin
-Author: Wrappixel
-Email: niravjoshi87@gmail.com
-File: js
-*/
-$(function () {
-  "use strict";
-  // ==============================================================
-  // Newsletter
-  // ==============================================================
-
-  var chart2 = new Chartist.Bar(
-    ".amp-pxl",
-    {
-      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      series: [
-        [9, 5, 3, 7, 5, 10, 3],
-        [6, 3, 9, 5, 4, 6, 4],
-      ],
-    },
-    {
-      axisX: {
-        // On the x-axis start means top and end means bottom
-        position: "end",
-        showGrid: false,
-      },
-      axisY: {
-        // On the y-axis start means left and end means right
-        position: "start",
-      },
-      high: "12",
-      low: "0",
-      plugins: [Chartist.plugins.tooltip()],
+$(document).ready(function() {
+    // Initialize jQuery UI tooltips if the tooltip method is available
+    if ($.fn.tooltip) {
+        $('[data-toggle="tooltip"]').tooltip();  // Initialize tooltips for elements with the attribute 'data-toggle="tooltip"'
     }
-  );
 
-  var chart = [chart2];
+    // Initialize Chartist chart with tooltip plugin
+    if (typeof Chartist !== 'undefined') {  // Check if Chartist is loaded
+        var data = {
+            // Your chart data here (e.g., series, labels)
+        };
+        var options = {
+            // Your chart options here
+        };
+
+        new Chartist.Line('.ct-chart', data, options).on('draw', function(event) {
+            // Add tooltip data for points
+            if (event.type === 'point') {
+                event.element.attr({
+                    'data-tooltip': event.value.y  // Set the tooltip data to the y value of the point
+                });
+            }
+        });
+    } else {
+        console.error('Chartist is not loaded. Please ensure Chartist.js is included before this script.');
+    }
 });

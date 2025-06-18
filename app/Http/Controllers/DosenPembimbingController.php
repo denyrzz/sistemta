@@ -18,7 +18,7 @@ class DosenPembimbingController extends Controller
 
         $mhsPkl = $dosen->mhsPkl()->with(['mahasiswa', 'tempat'])->get();
 
-        return view('admin.dosen_pembimbing', compact('dosen', 'mhsPkl','nilaiBimbingan'));
+        return view('admin.dosen_pembimbing', compact('dosen', 'mhsPkl', 'nilaiBimbingan'));
     }
 
     public function showLogbook($mhs_pkl_id)
@@ -29,8 +29,13 @@ class DosenPembimbingController extends Controller
     }
     public function updateValidasi($logbookId, Request $request)
     {
+        $request->validate([
+            'komentar' => 'required|string',
+        ]);
+
         $logbook = MhsLogbook::findOrFail($logbookId);
 
+        $logbook->komentar = $request->input('komentar');
         $logbook->validasi = '1';
         $logbook->save();
 

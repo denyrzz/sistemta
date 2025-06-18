@@ -69,13 +69,12 @@
                                             </td>
                                             <td>{{ $mhs->sesi ? $mhs->sesi->jam : '-' }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-secondary btn-sm"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#sidangModal{{ $mhs->id_pkl }}">
+                                                <button type="button" class="btn btn-secondary btn-sm w-100 mb-2"
+                                                    data-bs-toggle="modal" data-bs-target="#sidangModal{{ $mhs->id_pkl }}">
                                                     Jadwalkan
                                                 </button>
-                                                <a href="{{ route('surat_tugas.generatePDF', ['id' => $mhs->id_pkl]) }}"
-                                                    class="btn btn-primary text-white btn-sm">Surat Tugas</a>
+                                                <a href="{{ route('surat_tugas_pkl.generatePDF', ['id' => $mhs->id_pkl]) }}"
+                                                    class="btn btn-primary text-white btn-sm w-100">Surat Tugas</a>
                                                 {{-- <form action="{{ route('sidang_pkl.destroy', $mhs->id_pkl) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf

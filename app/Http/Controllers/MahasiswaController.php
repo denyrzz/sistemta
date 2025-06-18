@@ -46,6 +46,8 @@ class MahasiswaController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('mahasiswa');
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -65,6 +67,7 @@ class MahasiswaController extends Controller
             'image' => $imagePath,
             'user_id' => $user->id, // Assuming there's a user_id foreign key in mahasiswa table
         ]);
+
 
         return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil ditambahkan.');
     }

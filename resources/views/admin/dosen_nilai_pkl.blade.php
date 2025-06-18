@@ -57,7 +57,7 @@
                                                 <td>{{ $mhsPkl->mahasiswa->nama }}</td>
                                                 <td>{{ $mhsPkl->tanggal_sidang }}</td>
                                                 <td>{{ $mhsPkl->ruangan->nama_ruangan }}</td>
-                                                <td>{{ $mhsPkl->sesi->sesi }}</td>
+                                                <td>{{ $mhsPkl->sesi->sesi ? $mhsPkl->sesi->jam : '-' }}</td>
                                                 <td>
                                                     {{ $mhsPkl->nilaiPembimbing->nilai_sidang ?? '-' }}
                                                 </td>

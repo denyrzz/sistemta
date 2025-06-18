@@ -1,31 +1,41 @@
 <?php
 
 use App\Models\Mahasiswa;
+use App\Models\MhsSempro;
 use App\Models\PengajuanPkl;
 use App\Models\JabatanPimpinan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\MhsTaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\MhsPklController;
+use App\Http\Controllers\SemproController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\NilaiPklController;
 use App\Http\Controllers\PimpinanController;
+use App\Http\Controllers\SidangTaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MhsSemproController;
 use App\Http\Controllers\SidangPklController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\UsulanPklController;
 use App\Http\Controllers\MhsLogbookController;
+use App\Http\Controllers\BimbinganTAController;
+use App\Http\Controllers\NilaiSemproController;
+use App\Http\Controllers\MhsBimbinganController;
+use App\Http\Controllers\VerifikasiTAController;
+use App\Http\Controllers\KaprodiSemproController;
+use App\Http\Controllers\NilaiSidangTaController;
 use App\Http\Controllers\VerifikasiPKLController;
 use App\Http\Controllers\NilaiSidangPklController;
 use App\Http\Controllers\DosenPembimbingController;
 use App\Http\Controllers\JabatanPimpinanController;
-use App\Http\Controllers\KaprodiSemproController;
-use App\Http\Controllers\MhsSemproController;
-use App\Models\MhsSempro;
+use App\Http\Controllers\VerifikasiSemproController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +52,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/logout', [Controller::class, 'destroyUser'])->name('logout');
 
@@ -168,14 +177,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('dosenpembimbing/{logbookId}/validasi', [DosenPembimbingController::class, 'updateValidasi'])->name('dosenpembimbing.updateValidasi');
     Route::put('dosenpembimbing/updatePenilaian/{id}', [DosenPembimbingController::class, 'updatePenilaian'])->name('dosen.pembimbing.updatePenilaian');
 
-    Route::get('verif_berkas', [VerifikasiPKLController::class, 'index'])->name('verif_berkas.index');
+    Route::get('verif_berkas_pkl', [VerifikasiPKLController::class, 'index'])->name('verif_berkas.index');
     Route::patch('verif_berkas/{id_pkl}/verifikasi', [VerifikasiPKLController::class, 'verifikasi'])->name('verif_berkas.verifikasi');
     Route::get('verif_berkas/{id_pkl}/edit', [VerifikasiPKLController::class, 'edit'])->name('verif_berkas.edit');
     Route::patch('/verif_berkas/update/{id_pkl}', [VerifikasiPKLController::class, 'update'])->name('verif_berkas.update');
 
     Route::get('/sidang_pkl', [SidangPklController::class, 'index'])->name('sidang_pkl.index');
     Route::put('/sidang_pkl/update/{id_pkl}', [SidangPklController::class, 'update'])->name('sidang_pkl.update');
-    Route::get('/surat_tugas/{id}', [SidangPklController::class, 'generatePDF'])->name('surat_tugas.generatePDF');
+    Route::get('/surat_tugas/{id}', [SidangPklController::class, 'generatePDF'])->name('surat_tugas_pkl.generatePDF');
 
     Route::get('/nilai_sidang_pkl', [NilaiSidangPklController::class, 'index'])->name('nilai_sidang_pkl.index');
     Route::put('/nilai_sidang_pkl/update/{id_pkl}', [NilaiSidangPklController::class, 'update'])->name('nilai_sidang_pkl.update');
@@ -187,9 +196,49 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mhs_sempro/edit/{id}', [MhsSemproController::class, 'edit'])->name('mhs_sempro.edit');
     Route::delete('/mhs_sempro/{id}', [MhsSemproController::class, 'destroy'])->name('mhs_sempro.destroy');
 
-    Route::get('/kaprodi_sempro', [KaprodiSemproController::class, 'index'])->name('kaprodi_sempro.index');
+    Route::get('/kaprodi/pengajuan_sempro', [KaprodiSemproController::class, 'index'])->name('pengajuan_sempro.index');
     Route::put('/kaprodi_sempro/{id}/verify', [KaprodiSemproController::class, 'verify'])->name('kaprodi_sempro.verify');
-    Route::put('/kaprodi/sempro/add-dosen/{id}', [KaprodiSemproController::class, 'addDosen'])->name('kaprodi_sempro.add_dosen');
 
+    Route::get('/kaprodi/sempro', [SemproController::class, 'index'])->name('sempro.index');
+    Route::put('/kaprodi/sempro/store/{id}', [SemproController::class, 'store'])->name('sempro.store');
+    Route::put('/kaprodi/sempro/update/{id}', [SemproController::class, 'update'])->name('sempro.update');
+    Route::get('/kaprodi/surat_tugas/{id}', [SemproController::class, 'generatePDF'])->name('surat_tugas_sempro.generatePDF');
+
+    Route::get('verif_berkas_sempro', [VerifikasiSemproController::class, 'index'])->name('verif_berkas_sempro.index');
+    Route::patch('verif_berkas_sempro/{id_sempro}/verifikasi', [VerifikasiSemproController::class, 'verifikasi'])->name('verif_berkas_sempro.verifikasi');
+    Route::get('verif_berkas_sempro/{id_sempro}/edit', [VerifikasiSemproController::class, 'edit'])->name('verif_berkas_sempro.edit');
+    Route::patch('/verif_berkas_sempro/update/{id_sempro}', [VerifikasiSemproController::class, 'update'])->name('verif_berkas_sempro.update');
+
+    Route::get('/nilai_sempro', [NilaiSemproController::class, 'index'])->name('nilai_sempro.index');
+    Route::put('/nilai_sempro/update/{id_sempro}', [NilaiSemproController::class, 'update'])->name('nilai_sempro.update');
+    Route::post('/nilai_sempro/{id}', [NilaiSemproController::class, 'store'])->name('nilai_sempro.store');
+
+    Route::get('/mhs_ta', [MhsTaController::class, 'index'])->name('mhs_ta.index');
+    Route::post('/mhs_ta/store', [MhsTaController::class, 'store'])->name('mhs_ta.store');
+    Route::put('/mhs_ta/update/{id}', [MhsTaController::class, 'update'])->name('mhs_ta.update');
+    Route::get('/mhs_ta/edit/{id}', [MhsTaController::class, 'edit'])->name('mhs_ta.edit');
+    Route::delete('/mhs_ta/{id}', [MhsTaController::class, 'destroy'])->name('mhs_ta.destroy');
+
+    Route::get('verif_berkas_ta', [VerifikasiTAController::class, 'index'])->name('verif_berkas_ta.index');
+    Route::patch('verif_berkas_ta/{id_ta}/verifikasi', [VerifikasiTAController::class, 'verifikasi'])->name('verif_berkas_ta.verifikasi');
+    Route::get('verif_berkas_ta/{id_ta}/edit', [VerifikasiTAController::class, 'edit'])->name('verif_berkas_ta.edit');
+    Route::patch('/verif_berkas_ta/update/{id_ta}', [VerifikasiTAController::class, 'update'])->name('verif_berkas_ta.update');
+
+    Route::get('mhs/bimbingan', [MhsBimbinganController::class, 'index'])->name('mhs_bimbingan.index');
+    Route::post('mhs/bimbingan', [MhsBimbinganController::class, 'store'])->name('mhs_bimbingan.store');
+    Route::get('/mhs/bimbingan/create', [MhsBimbinganController::class, 'create'])->name('mhs_bimbingan.create');
+
+    Route::get('/sidang_ta', [SidangTaController::class, 'index'])->name('sidang_ta.index');
+    Route::put('/sidang_ta/update/{id_ta}', [SidangTaController::class, 'update'])->name('sidang_ta.update');
+    Route::get('/surat_tugas/{id}', [SidangTaController::class, 'generatePDF'])->name('surat_tugas_ta.generatePDF');
+    Route::put('/sidang-ta/{id}', [SidangTaController::class, 'store'])->name('sidang_ta.store');
+
+    Route::get('/nilai_ta', [NilaiSidangTaController::class, 'index'])->name('nilai_ta.index');
+    Route::post('/nilai_ta/{id}', [NilaiSidangTaController::class, 'store'])->name('nilai_ta.store');
+    Route::put('/nilai_ta/update/{id}', [NilaiSidangTaController::class, 'update'])->name('nilai_ta.update');
+
+    Route::get('/bimbingan-ta', [BimbinganTAController::class, 'index'])->name('dosen.bimbingan.index');
+    Route::get('/bimbingan-ta/{sempro_id}', [BimbinganTAController::class, 'showBimbingan'])->name('dosen.bimbingan.show');
+    Route::post('/bimbingan-ta/{bimbinganId}/update', [BimbinganTAController::class, 'updateValidasi'])->name('dosen.bimbingan.update');
 });
 require __DIR__ . '/auth.php';

@@ -57,6 +57,8 @@ class DosenController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('dosen');
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');

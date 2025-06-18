@@ -14,8 +14,6 @@ class MhsLogbookController extends Controller
     {
         $mahasiswaId = auth()->user()->mahasiswa->id_mahasiswa;
 
-        // Assuming `pkl_id` is the foreign key that links `mhs_logbook` to the `mhs_pkl` table,
-        // and `mhs_pkl` has `mahasiswa_id` to identify the mahasiswa
         $logbooks = MhsLogbook::whereHas('mhspkl', function ($query) use ($mahasiswaId) {
             $query->where('mahasiswa_id', $mahasiswaId);
         })->get();
@@ -47,17 +45,14 @@ class MhsLogbookController extends Controller
             'pkl_id' => 'required|exists:mhs_pkl,id_pkl',
             'tgl_awal' => 'required|date',
             'tgl_akhir' => 'required|date',
-            'komentar' => 'required|string',
             'dokumentasi' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048'
         ]);
 
-        // Process and store logbook entry as before
         $logbook = new MhsLogbook();
         $logbook->pkl_id = $request->input('pkl_id');
         $logbook->tgl_awal = $request->input('tgl_awal');
         $logbook->tgl_akhir = $request->input('tgl_akhir');
         $logbook->kegiatan = $request->input('kegiatan');
-        $logbook->komentar = $request->input('komentar');
 
         if ($request->hasFile('dokumentasi')) {
             $filename = time() . '_' . $request->file('dokumentasi')->getClientOriginalName();

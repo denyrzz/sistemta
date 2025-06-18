@@ -9,14 +9,14 @@ class VerifikasiPKLController extends Controller
 {
     public function index()
     {
-        $mhsPkl = MhsPkl::with('mahasiswa')->get(); // eager load mahasiswa
+        $mhsPkl = MhsPkl::with('mahasiswa')->get();
         return view('admin.verifikasi_berkas_pkl', compact('mhsPkl'));
     }
 
     public function verifikasi($id_pkl)
     {
         $mhsPkl = MhsPkl::findOrFail($id_pkl);
-        $mhsPkl->verif_berkas = '1'; // Set '1' to indicate the document is verified
+        $mhsPkl->verif_berkas = '1';
         $mhsPkl->save();
 
         return redirect()->route('verif_berkas.index')->with('success', 'Berkas PKL berhasil diverifikasi!');

@@ -56,6 +56,38 @@ class Dosen extends Model
         return $this->hasMany(MhsPkl::class, 'dosen_penguji', 'id_dosen');
     }
 
+    public function mhsSempro_pembimbing1()
+    {
+        return $this->hasMany(MhsSempro::class, 'pembimbing_satu', 'id_dosen');
+    }
+
+    public function mhsSempro_pembimbing2()
+    {
+        return $this->hasMany(MhsSempro::class, 'pembimbing_dua', 'id_dosen');
+    }
+
+    public function mhsSempro_penguji()
+    {
+        return $this->hasMany(MhsSempro::class, 'penguji', 'id_dosen');
+    }
+    public function mhsTa_penguji1()
+    {
+        return $this->hasMany(MhsTa::class, 'penguji1_id', 'id_dosen');
+    }
+    public function mhsTa_penguji2()
+    {
+        return $this->hasMany(MhsTa::class, 'penguji2_id', 'id_dosen');
+    }
+    public function mhsTa_penguji3()
+    {
+        return $this->hasMany(MhsTa::class, 'penguji3_id', 'id_dosen');
+    }
+
+    public function sempro()
+    {
+        return $this->hasMany(MhsSempro::class, 'dosen_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -66,5 +98,4 @@ class Dosen extends Model
             }
         });
     }
-
 }

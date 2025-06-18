@@ -25,8 +25,28 @@ class MhsSempro extends Model
         'tanggal_sempro',
         'ruangan_id',
         'sesi_id',
+        'nilai_mahasiswa',
         'status',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        MhsSempro::all()->each(function ($sempro) {
+            $nilaiPembimbingSatu = $sempro->nilaiPembimbing1->nilai_sempro ?? null;
+            $nilaiPembimbingDua = $sempro->nilaiPembimbing2->nilai_sempro ?? null;
+            $nilaiPenguji = $sempro->nilaiPenguji->nilai_sempro ?? null;
+
+            if ($nilaiPembimbingSatu !== null && $nilaiPenguji !== null && $nilaiPembimbingDua !== null) {
+                $nilaimahasiswa = (($nilaiPembimbingSatu + $nilaiPenguji + $nilaiPembimbingDua)/3);
+
+                $sempro->nilai_mahasiswa = $nilaimahasiswa;
+
+                $sempro->save();
+            } else {
+            }
+        });
+    }
 
     public function mahasiswa()
     {
@@ -43,7 +63,7 @@ class MhsSempro extends Model
         return $this->belongsTo(Dosen::class, 'pembimbing_dua', 'id_dosen');
     }
 
-    public function penguji()
+    public function Penguji()
     {
         return $this->belongsTo(Dosen::class, 'penguji', 'id_dosen');
     }
@@ -56,6 +76,31 @@ class MhsSempro extends Model
     public function ruangan()
     {
         return $this->belongsTo(Ruangan::class, 'ruangan_id', 'id_ruangan');
+    }
+
+    public function nilaiPembimbing1()
+    {
+        return $this->hasOne(NilaiSempro::class, 'sempro_id', 'id_sempro')->where('status', '0');
+    }
+
+    public function nilaiPembimbing2()
+    {
+        return $this->hasOne(NilaiSempro::class, 'sempro_id', 'id_sempro')->where('status', '1');
+    }
+
+    public function nilaiPenguji()
+    {
+        return $this->hasOne(NilaiSempro::class, 'sempro_id', 'id_sempro')->where('status', '2');
+    }
+
+    public function nilaisempro()
+    {
+        return $this->hasOne(NilaiSempro::class, 'sempro_id');
+    }
+
+    public function bimbinganTA()
+    {
+        return $this->hasMany(BimbinganTA::class, 'sempro_id');
     }
 
 }

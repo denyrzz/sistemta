@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tgl_akhir');
             $table->text('kegiatan')->nullable();
             $table->string('dokumentasi')->nullable();
-            $table->text('komentar');
+            $table->text('komentar')->nullable();;
             $table->enum('validasi', ['0', '1'])->default('0');
 
             $table->foreign('pkl_id')->references('id_pkl')->on('mhs_pkl')

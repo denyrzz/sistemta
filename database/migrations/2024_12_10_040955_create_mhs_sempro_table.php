@@ -22,6 +22,8 @@ return new class extends Migration
             $table->date('tanggal_sempro')->nullable();
             $table->unsignedBigInteger('ruangan_id')->nullable();
             $table->unsignedBigInteger('sesi_id')->nullable();
+            $table->double('nilai_mahasiswa', 8, 2)->nullable();
+            $table->enum('verif_berkas', ['0', '1'])->default('0')->comment('0: Belum, 1: Sudah')->nullable();
             $table->enum('status', ['0', '1'])->default('0')->comment('0: Belum, 1: Sudah')->nullable();
 
             $table->foreign('mahasiswa_id')->references('id_mahasiswa')->on('mahasiswa')

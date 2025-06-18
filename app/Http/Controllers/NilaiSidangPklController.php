@@ -94,7 +94,6 @@ class NilaiSidangPklController extends Controller
         $nilaiSidangRecord->nilai_sidang = $nilaiSidang;
         $nilaiSidangRecord->status = $status;
 
-        // Simpan nilai sesuai dengan status (0 atau 1) tanpa menimpa nilai yang sudah ada
         $nilaiSidangRecord->save();
 
         return redirect()->back()->with('success', 'Penilaian berhasil disimpan!');
